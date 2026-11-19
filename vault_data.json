@@ -1,0 +1,191 @@
+{
+  "updated_at": "2026-11-19T21:58:47.406757+00:00",
+  "net_return_pct": -0.4,
+  "total_r": -0.4,
+  "current_dd_pct": 3.76,
+  "max_dd_pct": 3.76,
+  "win_rate_pct": 40.9,
+  "profit_factor": 0.94,
+  "total_trades": 22,
+  "damper_state": "TIER-2 SHIELD",
+  "has_open_position": false,
+  "telegram_channel_url": "",
+  "deals": [
+    {
+      "time": "11-10 18:40",
+      "engine": "\u2699\ufe0f Quant Engine",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": 0.0,
+      "r_mult": 0.0
+    },
+    {
+      "time": "11-12 14:39",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "SELL",
+      "pct": 1.09,
+      "r_mult": 1.09
+    },
+    {
+      "time": "11-12 18:43",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": 0.89,
+      "r_mult": 0.89
+    },
+    {
+      "time": "11-12 19:22",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "SELL",
+      "pct": 0.85,
+      "r_mult": 0.85
+    },
+    {
+      "time": "11-13 15:16",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.78,
+      "r_mult": -0.78
+    },
+    {
+      "time": "11-13 15:51",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "SELL",
+      "pct": 1.3,
+      "r_mult": 1.3
+    },
+    {
+      "time": "11-13 17:54",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.44,
+      "r_mult": -0.44
+    },
+    {
+      "time": "11-13 18:52",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.32,
+      "r_mult": -0.32
+    },
+    {
+      "time": "11-16 15:18",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.36,
+      "r_mult": -0.35
+    },
+    {
+      "time": "11-16 16:23",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "SELL",
+      "pct": 0.28,
+      "r_mult": 0.28
+    },
+    {
+      "time": "11-16 16:48",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.59,
+      "r_mult": -0.59
+    },
+    {
+      "time": "11-17 10:01",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.89,
+      "r_mult": -0.89
+    },
+    {
+      "time": "11-17 10:38",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "SELL",
+      "pct": 0.52,
+      "r_mult": 0.52
+    },
+    {
+      "time": "11-17 19:27",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.56,
+      "r_mult": -0.56
+    },
+    {
+      "time": "11-17 20:25",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": 0.37,
+      "r_mult": 0.37
+    },
+    {
+      "time": "11-18 11:24",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": 0.8,
+      "r_mult": 0.8
+    },
+    {
+      "time": "11-18 18:16",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.64,
+      "r_mult": -0.64
+    },
+    {
+      "time": "11-18 19:40",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.5,
+      "r_mult": -0.5
+    },
+    {
+      "time": "11-19 15:01",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": -0.61,
+      "r_mult": -0.61
+    },
+    {
+      "time": "11-19 18:50",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.28,
+      "r_mult": -0.28
+    },
+    {
+      "time": "11-19 19:00",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.32,
+      "r_mult": -0.32
+    },
+    {
+      "time": "11-19 19:58",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": -0.22,
+      "r_mult": -0.22
+    }
+  ]
+}
