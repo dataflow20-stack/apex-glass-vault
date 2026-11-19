@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Apex Quantitative Engineering — Glass Vault Live</title>
+  <style>
+    :root {
+      --bg: #080c15;
+      --card: #101726;
+      --card-elev: #151e32;
+      --border: #1e293b;
+      --gold: #f59e0b;
+      --blue: #38bdf8;
+      --green: #10b981;
+      --red: #f43f5e;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 16px; line-height: 1.45; }
+    .container { max-width: 920px; margin: 0 auto; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 16px;
+    }
+    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .brand-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .badge {
+      background: rgba(16, 185, 129, 0.14); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.45);
+      padding: 5px 11px; border-radius: 99px; font-size: 11px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .badge::before {
+      content: ""; width: 7px; height: 7px; background: var(--green); border-radius: 50%;
+      display: inline-block; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.25; } 100% { opacity: 1; } }
+
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+    @media (min-width: 680px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); }
+    .card-val { font-size: 22px; font-weight: 800; margin-top: 4px; }
+    .card-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+    .bar { background: #1e293b; border-radius: 99px; height: 6px; width: 100%; margin-top: 8px; overflow: hidden; }
+    .fill { background: linear-gradient(90deg, #10b981, #38bdf8); height: 100%; width: 0%; transition: width 0.4s ease; }
+
+    .shield-banner {
+      background: var(--card-elev); border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; margin-bottom: 14px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      font-size: 12px; color: var(--muted);
+    }
+    .shield-banner strong { color: var(--text); }
+    .pill {
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px;
+      background: rgba(56, 189, 248, 0.14); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .chart-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .chart-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .chart-subtitle { font-size: 12px; color: var(--muted); }
+    .canvas-wrap { position: relative; width: 100%; height: 265px; }
+    canvas { width: 100% !important; height: 100% !important; }
+
+    .table-wrap { overflow-x: auto; margin-top: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left; }
+    th { background: #141c2e; color: var(--muted); padding: 9px 10px; font-weight: 600; font-size: 11px; white-space: nowrap; }
+    td { padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .empty { text-align: center; color: var(--muted); padding: 22px; font-size: 13px; }
+
+    .footer {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      padding: 12px 2px 24px; font-size: 12px; color: var(--muted);
+    }
+    .tg-btn {
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+      background: rgba(56, 189, 248, 0.14); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.45);
+      padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 12px;
+    }
+    .tg-btn:hover { background: rgba(56, 189, 248, 0.24); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="brand-title">APEX QUANTITATIVE ENGINEERING</div>
+        <div class="brand-sub">Glass Vault &bull; Verified Algorithmic Portfolio #01 (XAUUSD &amp; NDX100 M1)</div>
+      </div>
+      <span class="badge" id="sync-badge">LIVE VERIFIED</span>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-title">Net Return</div>
+        <div class="card-val" id="val-return">0.00%</div>
+        <div class="card-sub" id="val-total-r">Cumulative: 0.00R</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Drawdown from Peak</div>
+        <div class="card-val" id="val-dd" style="color: var(--blue);">0.00%</div>
+        <div class="card-sub" id="val-maxdd">Max DD: 0.00% / 10.0% Limit</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Win Rate &bull; Trades</div>
+        <div class="card-val" id="val-winrate" style="color: var(--text); font-size: 19px;">--% (0)</div>
+        <div class="card-sub" id="val-pf">Profit Factor: --</div>
+      </div>
+      <div class="card">
+        <div class="card-title">HJB Risk Damper</div>
+        <div class="card-val" id="val-damper" style="color: var(--green); font-size: 18px;">NORMAL</div>
+        <div class="bar"><div class="fill" id="fill-shield" style="width: 100%;"></div></div>
+      </div>
+    </div>
+
+    <div class="shield-banner">
+      <div>🔒 <strong>Zero-Leak Glass Vault:</strong> Live entries, lot sizes &amp; account credentials are masked to protect execution edge. Only verified closed results (% &amp; R) are published.</div>
+      <span class="pill" id="live-state-pill">Monitoring Killzones</span>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">📈 Verified Equity Curve (% Return)</div>
+          <div class="chart-subtitle">Automated MT5 Telemetry &bull; Trade-by-Trade Closed Performance</div>
+        </div>
+        <div style="font-size: 12px; font-weight: 700; color: var(--blue);" id="last-updated">Syncing...</div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="equityCanvas"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="font-size: 14px; font-weight: 700;">📜 Verified Closed Trade Log (% &amp; R-Multiple)</div>
+        <span style="font-size: 11px; color: var(--muted);" id="history-count">0 Closed Trade(s)</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time (UTC)</th>
+              <th>Engine</th>
+              <th>Instrument</th>
+              <th>Direction</th>
+              <th>Return (%)</th>
+              <th>Result (R)</th>
+            </tr>
+          </thead>
+          <tbody id="deals-tbody">
+            <tr><td colspan="6" class="empty">Loading verified trade telemetry...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Apex Institutional Quantitative Engineering &bull; Algorithmic Audit Feed</div>
+      <a class="tg-btn" id="tg-channel-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
+        📲 Join Live Telegram Channel
+      </a>
+    </div>
+  </div>
+
+  <script>
+    let pctCurve = [{ label: "Start", pct: 0.0 }];
+
+    function drawLiveChart() {
+      const canvas = document.getElementById('equityCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+      const padL = 56, padR = 20, padT = 24, padB = 28;
+      ctx.clearRect(0, 0, w, h);
+
+      const vals = pctCurve.map(p => p.pct);
+      const minV = Math.min(-10.0, Math.floor(Math.min(...vals, -2) - 1));
+      const maxV = Math.max(8.5, Math.ceil(Math.max(...vals, 4) + 1));
+
+      const getX = (idx, total) => (total <= 1 ? padL : padL + (idx / (total - 1)) * (w - padL - padR));
+      const getY = (val) => padT + (1 - (val - minV) / (maxV - minV)) * (h - padT - padB);
+
+      const keyLevels = [
+        { val: 8.0, label: "+8.0% Milestone", color: "#38bdf8", dash: [5, 4] },
+        { val: 4.0, label: "+4.0%", color: "#1e293b", dash: [] },
+        { val: 0.0, label: "0.0% Baseline", color: "#64748b", dash: [2, 2] },
+        { val: -5.0, label: "-5.0%", color: "#1e293b", dash: [] },
+        { val: -10.0, label: "-10.0% Max Shield", color: "#f43f5e", dash: [5, 4] }
+      ];
+
+      ctx.font = '10px -apple-system, sans-serif';
+      keyLevels.forEach(lvl => {
+        if (lvl.val < minV || lvl.val > maxV) return;
+        const y = getY(lvl.val);
+        ctx.strokeStyle = lvl.color;
+        ctx.lineWidth = (lvl.val === 8.0 || lvl.val === -10.0 || lvl.val === 0.0) ? 1.2 : 0.8;
+        ctx.setLineDash(lvl.dash);
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(w - padR, y);
+        ctx.stroke();
+
+        ctx.fillStyle = lvl.color;
+        const isRight = (lvl.val === 8.0 || lvl.val === -10.0);
+        ctx.fillText(lvl.label, isRight ? (w - 115) : 6, y - 4);
+      });
+      ctx.setLineDash([]);
+
+      if (pctCurve.length > 0) {
+        const lastPct = pctCurve[pctCurve.length - 1].pct;
+        const lineColor = lastPct >= 0 ? '#10b981' : '#38bdf8';
+        const grad = ctx.createLinearGradient(0, padT, 0, h - padB);
+        grad.addColorStop(0, lastPct >= 0 ? 'rgba(16, 185, 129, 0.30)' : 'rgba(56, 189, 248, 0.28)');
+        grad.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+        ctx.beginPath();
+        ctx.moveTo(getX(0, pctCurve.length), getY(0.0));
+        pctCurve.forEach((p, i) => ctx.lineTo(getX(i, pctCurve.length), getY(p.pct)));
+        ctx.lineTo(getX(pctCurve.length - 1, pctCurve.length), getY(0.0));
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        ctx.beginPath();
+        pctCurve.forEach((p, i) => {
+          const x = getX(i, pctCurve.length);
+          const y = getY(p.pct);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = lineColor;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        pctCurve.forEach((p, i) => {
+          const x = getX(i, pctCurve.length);
+          const y = getY(p.pct);
+          ctx.beginPath();
+          ctx.arc(x, y, (i === pctCurve.length - 1 ? 5 : 3.2), 0, Math.PI * 2);
+          ctx.fillStyle = (i === pctCurve.length - 1 ? '#38bdf8' : lineColor);
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.1;
+          ctx.stroke();
+        });
+      }
+    }
+
+    async function syncVault() {
+      try {
+        const res = await fetch('./vault_data.json?t=' + Date.now());
+        if (!res.ok) return;
+        const d = await res.json();
+
+        const retEl = document.getElementById('val-return');
+        const retVal = Number(d.net_return_pct || 0);
+        retEl.textContent = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
+        retEl.style.color = retVal >= 0 ? 'var(--green)' : 'var(--red)';
+
+        const totR = Number(d.total_r || 0);
+        document.getElementById('val-total-r').textContent = 'Cumulative: ' + (totR >= 0 ? '+' : '') + totR.toFixed(2) + 'R';
+
+        const ddVal = Number(d.current_dd_pct || 0);
+        const maxDdVal = Number(d.max_dd_pct || 0);
+        document.getElementById('val-dd').textContent = (ddVal > 0 ? '-' : '') + ddVal.toFixed(2) + '%';
+        document.getElementById('val-maxdd').textContent = 'Max DD: -' + maxDdVal.toFixed(2) + '% / 10.0% Limit';
+
+        const wrVal = Number(d.win_rate_pct || 0);
+        const nTrades = Number(d.total_trades || 0);
+        document.getElementById('val-winrate').textContent = nTrades > 0 ? (wrVal.toFixed(1) + '% (' + nTrades + ')') : '--% (0)';
+        document.getElementById('val-pf').textContent = 'Profit Factor: ' + (d.profit_factor !== null && d.profit_factor !== undefined ? Number(d.profit_factor).toFixed(2) : '--');
+
+        const damperEl = document.getElementById('val-damper');
+        damperEl.textContent = d.damper_state || 'NORMAL';
+        damperEl.style.color = (d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)';
+
+        const shieldPct = Math.max(0, Math.min(100, 100 - (ddVal / 10.0) * 100));
+        document.getElementById('fill-shield').style.width = shieldPct.toFixed(1) + '%';
+
+        const statePill = document.getElementById('live-state-pill');
+        statePill.textContent = d.has_open_position ? '⚡ Engine Active (Position Masked)' : '🛡️ Flat — Scanning Killzones';
+
+        if (d.updated_at) {
+          const dt = new Date(d.updated_at);
+          document.getElementById('last-updated').textContent = 'Updated: ' + dt.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+        }
+
+        if (d.telegram_channel_url) {
+          const link = document.getElementById('tg-channel-link');
+          link.href = d.telegram_channel_url;
+          link.style.display = 'inline-flex';
+        }
+
+        if (d.deals && Array.isArray(d.deals) && d.deals.length > 0) {
+          pctCurve = [{ label: "Start", pct: 0.0 }];
+          let cumPct = 0.0;
+          d.deals.forEach((deal, idx) => {
+            cumPct += Number(deal.pct || 0);
+            pctCurve.push({ label: "#" + (idx + 1), pct: cumPct });
+          });
+
+          document.getElementById('history-count').textContent = d.deals.length + ' Closed Trade(s)';
+          const tbody = document.getElementById('deals-tbody');
+          tbody.innerHTML = [...d.deals].reverse().map(deal => {
+            const p = Number(deal.pct || 0);
+            const r = Number(deal.r_mult || 0);
+            const c = p >= 0 ? 'var(--green)' : 'var(--red)';
+            return `
+              <tr>
+                <td style="color: var(--muted);">${deal.time}</td>
+                <td>${deal.engine}</td>
+                <td><b>${deal.symbol}</b></td>
+                <td style="color:${deal.type === 'BUY' ? 'var(--green)' : 'var(--red)'}; font-weight:700;">${deal.type}</td>
+                <td style="color:${c}; font-weight:700;">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</td>
+                <td style="color:${c}; font-weight:700;">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</td>
+              </tr>
+            `;
+          }).join('');
+        } else {
+          pctCurve = [{ label: "Start", pct: 0.0 }];
+        }
+        drawLiveChart();
+      } catch (e) {}
+    }
+
+    window.addEventListener('resize', drawLiveChart);
+    window.addEventListener('DOMContentLoaded', () => {
+      drawLiveChart();
+      syncVault();
+      setInterval(syncVault, 15000);
+    });
+  </script>
+</body>
+</html>
