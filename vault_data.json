@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-11-24T14:30:53.045399+00:00",
-  "net_return_pct": -2.03,
-  "total_r": -2.03,
-  "current_dd_pct": 5.39,
+  "updated_at": "2026-11-24T14:31:01.331445+00:00",
+  "net_return_pct": -1.94,
+  "total_r": -1.94,
+  "current_dd_pct": 5.3,
   "max_dd_pct": 5.39,
-  "win_rate_pct": 32.3,
-  "profit_factor": 0.76,
-  "total_trades": 31,
+  "win_rate_pct": 34.4,
+  "profit_factor": 0.77,
+  "total_trades": 32,
   "damper_state": "TIER-2 SHIELD",
-  "has_open_position": true,
+  "has_open_position": false,
   "telegram_channel_url": "https://t.me/ApexQuantVault",
   "deals": [
     {
@@ -258,6 +258,14 @@
       "type": "SELL",
       "pct": -0.14,
       "r_mult": -0.14
+    },
+    {
+      "time": "11-24 16:31",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": 0.09,
+      "r_mult": 0.09
     }
   ]
 }
