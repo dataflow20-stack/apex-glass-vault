@@ -66,6 +66,48 @@
     .canvas-wrap { position: relative; width: 100%; height: 265px; }
     canvas { width: 100% !important; height: 100% !important; }
 
+    /* Monthly PnL Calendar */
+    .cal-header {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .cal-nav { display: inline-flex; align-items: center; gap: 8px; }
+    .cal-btn {
+      background: var(--card-elev); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 11px; font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .cal-btn:hover:not(:disabled) { background: #1e293b; border-color: var(--blue); }
+    .cal-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+    .cal-month-label { font-size: 14px; font-weight: 800; min-width: 128px; text-align: center; }
+    .cal-summary { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .cal-dow {
+      text-align: center; font-size: 10.5px; font-weight: 700; color: var(--muted);
+      padding-bottom: 4px; text-transform: uppercase;
+    }
+    .cal-cell {
+      background: #0c1220; border: 1px solid var(--border); border-radius: 8px;
+      min-height: 62px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .cal-cell.empty-day { background: transparent; border-color: transparent; }
+    .cal-cell.weekend { background: rgba(15, 23, 42, 0.35); opacity: 0.65; }
+    .cal-cell.win-day {
+      background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.45);
+    }
+    .cal-cell.loss-day {
+      background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.45);
+    }
+    .cal-day-num { font-size: 10.5px; color: var(--muted); font-weight: 700; }
+    .cal-day-pct { font-size: 12px; font-weight: 800; margin-top: 2px; }
+    .cal-day-meta { font-size: 10px; color: var(--muted); margin-top: 1px; }
+    @media (max-width: 520px) {
+      .cal-grid { gap: 4px; }
+      .cal-cell { min-height: 54px; padding: 4px; }
+      .cal-day-pct { font-size: 10.5px; }
+      .cal-day-meta { font-size: 9px; }
+    }
+
     .table-wrap { overflow-x: auto; margin-top: 8px; }
     table { width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left; }
     th { background: #141c2e; color: var(--muted); padding: 9px 10px; font-weight: 600; font-size: 11px; white-space: nowrap; }
@@ -135,10 +177,34 @@
       </div>
     </div>
 
+    <!-- Monthly Daily PnL & Trade Count Calendar -->
     <div class="card" style="margin-bottom: 14px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <div style="font-size: 14px; font-weight: 700;">📜 Verified Closed Trade Log (% &amp; R-Multiple)</div>
-        <span style="font-size: 11px; color: var(--muted);" id="history-count">0 Closed Trade(s)</span>
+      <div class="cal-header">
+        <div>
+          <div style="font-size: 14px; font-weight: 700;">📅 Monthly Performance Calendar (Daily % &amp; Trades)</div>
+          <div class="cal-summary" id="cal-month-summary">Month Total: 0.00% &bull; 0 trades</div>
+        </div>
+        <div class="cal-nav">
+          <button class="cal-btn" id="cal-prev" type="button">&larr; Prev</button>
+          <span class="cal-month-label" id="cal-month-label">November 2026</span>
+          <button class="cal-btn" id="cal-next" type="button">Next &rarr;</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+    <!-- Paginated Closed Trades (5 per page) -->
+    <div class="card" style="margin-bottom: 14px;">
+      <div class="cal-header" style="margin-bottom:8px;">
+        <div>
+          <div style="font-size: 14px; font-weight: 700;">📜 Closed Trades Log (% &amp; R-Multiple)</div>
+          <div style="font-size: 11px; color: var(--muted);" id="history-count">Showing 0 of 0</div>
+        </div>
+        <div class="cal-nav">
+          <button class="cal-btn" id="deals-prev" type="button" disabled>&larr; Newer</button>
+          <span class="cal-summary" id="deals-page-label" style="min-width:74px; text-align:center;">Page 1 / 1</span>
+          <button class="cal-btn" id="deals-next" type="button" disabled>Older &rarr;</button>
+        </div>
       </div>
       <div class="table-wrap">
         <table>
@@ -169,6 +235,154 @@
 
   <script>
     let pctCurve = [{ label: "Start", pct: 0.0 }];
+    let allDeals = [];
+    let dealsPage = 1;
+    const DEALS_PER_PAGE = 5;
+
+    function renderDealsPage() {
+      const tbody = document.getElementById('deals-tbody');
+      const countEl = document.getElementById('history-count');
+      const pageLabel = document.getElementById('deals-page-label');
+      const prevBtn = document.getElementById('deals-prev');
+      const nextBtn = document.getElementById('deals-next');
+      if (!tbody) return;
+
+      const total = allDeals.length;
+      if (total === 0) {
+        countEl.textContent = 'Showing 0 of 0';
+        pageLabel.textContent = 'Page 1 / 1';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        tbody.innerHTML = '<tr><td colspan="6" class="empty">No closed trades recorded yet.</td></tr>';
+        return;
+      }
+
+      const totalPages = Math.max(1, Math.ceil(total / DEALS_PER_PAGE));
+      if (dealsPage > totalPages) dealsPage = totalPages;
+      if (dealsPage < 1) dealsPage = 1;
+
+      const rev = [...allDeals].reverse();
+      const startIdx = (dealsPage - 1) * DEALS_PER_PAGE;
+      const endIdx = Math.min(total, startIdx + DEALS_PER_PAGE);
+      const slice = rev.slice(startIdx, endIdx);
+
+      countEl.textContent = `Showing ${startIdx + 1}–${endIdx} of ${total} Closed Trade(s)`;
+      pageLabel.textContent = `Page ${dealsPage} / ${totalPages}`;
+      prevBtn.disabled = (dealsPage <= 1);
+      nextBtn.disabled = (dealsPage >= totalPages);
+
+      tbody.innerHTML = slice.map(deal => {
+        const p = Number(deal.pct || 0);
+        const r = Number(deal.r_mult || 0);
+        const c = p >= 0 ? 'var(--green)' : 'var(--red)';
+        return `
+          <tr>
+            <td style="color: var(--muted);">${deal.time}</td>
+            <td>${deal.engine}</td>
+            <td><b>${deal.symbol}</b></td>
+            <td style="color:${deal.type === 'BUY' ? 'var(--green)' : 'var(--red)'}; font-weight:700;">${deal.type}</td>
+            <td style="color:${c}; font-weight:700;">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</td>
+            <td style="color:${c}; font-weight:700;">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</td>
+          </tr>
+        `;
+      }).join('');
+    }
+    let refYear = new Date().getUTCFullYear();
+    let calYear = new Date().getUTCFullYear();
+    let calMonth = new Date().getUTCMonth(); // 0-11
+    let calInitialized = false;
+
+    const MONTH_NAMES = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+
+    function getDealDateKey(deal) {
+      if (deal.date && /^\d{4}-\d{2}-\d{2}$/.test(deal.date)) {
+        return deal.date;
+      }
+      if (deal.time && /^\d{2}-\d{2}/.test(deal.time)) {
+        return refYear + "-" + deal.time.slice(0, 5);
+      }
+      return null;
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('cal-grid');
+      const label = document.getElementById('cal-month-label');
+      const summaryEl = document.getElementById('cal-month-summary');
+      if (!grid) return;
+
+      label.textContent = MONTH_NAMES[calMonth] + " " + calYear;
+
+      // Aggregate deals by YYYY-MM-DD for the selected month
+      const dailyMap = {};
+      let monthPct = 0.0;
+      let monthR = 0.0;
+      let monthTrades = 0;
+      const monthPrefix = calYear + "-" + String(calMonth + 1).padStart(2, "0") + "-";
+
+      allDeals.forEach(deal => {
+        const key = getDealDateKey(deal);
+        if (!key || !key.startsWith(monthPrefix)) return;
+        const p = Number(deal.pct || 0);
+        const r = Number(deal.r_mult || 0);
+        if (!dailyMap[key]) dailyMap[key] = { pct: 0.0, r: 0.0, count: 0 };
+        dailyMap[key].pct += p;
+        dailyMap[key].r += r;
+        dailyMap[key].count += 1;
+        monthPct += p;
+        monthR += r;
+        monthTrades += 1;
+      });
+
+      const mColor = monthPct >= 0 ? 'var(--green)' : 'var(--red)';
+      summaryEl.innerHTML =
+        `Month Total: <strong style="color:${mColor}">${monthPct >= 0 ? '+' : ''}${monthPct.toFixed(2)}%</strong> ` +
+        `(${monthR >= 0 ? '+' : ''}${monthR.toFixed(2)}R) &bull; ${monthTrades} trade${monthTrades === 1 ? '' : 's'}`;
+
+      const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+      let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join("");
+
+      const firstDay = new Date(Date.UTC(calYear, calMonth, 1));
+      const startOffset = (firstDay.getUTCDay() + 6) % 7; // Monday = 0
+      const daysInMonth = new Date(Date.UTC(calYear, calMonth + 1, 0)).getUTCDate();
+
+      for (let i = 0; i < startOffset; i++) {
+        html += `<div class="cal-cell empty-day"></div>`;
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = monthPrefix + String(day).padStart(2, "0");
+        const dow = (startOffset + day - 1) % 7;
+        const isWeekend = (dow === 5 || dow === 6);
+        const info = dailyMap[dateKey];
+
+        if (info) {
+          const isWin = info.pct >= 0;
+          const cls = isWin ? "win-day" : "loss-day";
+          const col = isWin ? "var(--green)" : "var(--red)";
+          html += `
+            <div class="cal-cell ${cls}">
+              <div class="cal-day-num">${day}</div>
+              <div>
+                <div class="cal-day-pct" style="color:${col}">${isWin ? '+' : ''}${info.pct.toFixed(2)}%</div>
+                <div class="cal-day-meta">${info.count}t &bull; ${info.r >= 0 ? '+' : ''}${info.r.toFixed(1)}R</div>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="cal-cell${isWeekend ? ' weekend' : ''}">
+              <div class="cal-day-num">${day}</div>
+              <div class="cal-day-meta" style="opacity:0.4;">—</div>
+            </div>
+          `;
+        }
+      }
+
+      grid.innerHTML = html;
+    }
 
     function drawLiveChart() {
       const canvas = document.getElementById('equityCanvas');
@@ -264,6 +478,17 @@
         if (!res.ok) return;
         const d = await res.json();
 
+        if (d.updated_at) {
+          const dt = new Date(d.updated_at);
+          refYear = dt.getUTCFullYear();
+          if (!calInitialized) {
+            calYear = dt.getUTCFullYear();
+            calMonth = dt.getUTCMonth();
+            calInitialized = true;
+          }
+          document.getElementById('last-updated').textContent = 'Updated: ' + dt.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+        }
+
         const retEl = document.getElementById('val-return');
         const retVal = Number(d.net_return_pct || 0);
         retEl.textContent = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
@@ -284,18 +509,15 @@
 
         const damperEl = document.getElementById('val-damper');
         damperEl.textContent = d.damper_state || 'NORMAL';
-        damperEl.style.color = (d.damper_state && (d.damper_state.includes('TIER-3') || d.damper_state.includes('TIER-4'))) ? 'var(--red)' : ((d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)');
+        damperEl.style.color = (d.damper_state && (d.damper_state.includes('TIER-3') || d.damper_state.includes('TIER-4')))
+          ? 'var(--red)'
+          : ((d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)');
 
         const shieldPct = Math.max(0, Math.min(100, 100 - (ddVal / 10.0) * 100));
         document.getElementById('fill-shield').style.width = shieldPct.toFixed(1) + '%';
 
         const statePill = document.getElementById('live-state-pill');
         statePill.textContent = d.has_open_position ? '⚡ Engine Active (Position Masked)' : '🛡️ Flat — Scanning Killzones';
-
-        if (d.updated_at) {
-          const dt = new Date(d.updated_at);
-          document.getElementById('last-updated').textContent = 'Updated: ' + dt.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
-        }
 
         if (d.telegram_channel_url) {
           const link = document.getElementById('tg-channel-link');
@@ -304,6 +526,7 @@
         }
 
         if (d.deals && Array.isArray(d.deals) && d.deals.length > 0) {
+          allDeals = d.deals;
           pctCurve = [{ label: "Start", pct: 0.0 }];
           let cumPct = 0.0;
           d.deals.forEach((deal, idx) => {
@@ -311,32 +534,36 @@
             pctCurve.push({ label: "#" + (idx + 1), pct: cumPct });
           });
 
-          document.getElementById('history-count').textContent = d.deals.length + ' Closed Trade(s)';
-          const tbody = document.getElementById('deals-tbody');
-          tbody.innerHTML = [...d.deals].reverse().map(deal => {
-            const p = Number(deal.pct || 0);
-            const r = Number(deal.r_mult || 0);
-            const c = p >= 0 ? 'var(--green)' : 'var(--red)';
-            return `
-              <tr>
-                <td style="color: var(--muted);">${deal.time}</td>
-                <td>${deal.engine}</td>
-                <td><b>${deal.symbol}</b></td>
-                <td style="color:${deal.type === 'BUY' ? 'var(--green)' : 'var(--red)'}; font-weight:700;">${deal.type}</td>
-                <td style="color:${c}; font-weight:700;">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</td>
-                <td style="color:${c}; font-weight:700;">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</td>
-              </tr>
-            `;
-          }).join('');
         } else {
+          allDeals = [];
           pctCurve = [{ label: "Start", pct: 0.0 }];
         }
+        renderDealsPage();
+        renderCalendar();
         drawLiveChart();
       } catch (e) {}
     }
 
     window.addEventListener('resize', drawLiveChart);
     window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('cal-prev').addEventListener('click', () => {
+        calMonth -= 1;
+        if (calMonth < 0) { calMonth = 11; calYear -= 1; }
+        renderCalendar();
+      });
+      document.getElementById('cal-next').addEventListener('click', () => {
+        calMonth += 1;
+        if (calMonth > 11) { calMonth = 0; calYear += 1; }
+        renderCalendar();
+      });
+      document.getElementById('deals-prev').addEventListener('click', () => {
+        if (dealsPage > 1) { dealsPage -= 1; renderDealsPage(); }
+      });
+      document.getElementById('deals-next').addEventListener('click', () => {
+        const totalPages = Math.max(1, Math.ceil(allDeals.length / DEALS_PER_PAGE));
+        if (dealsPage < totalPages) { dealsPage += 1; renderDealsPage(); }
+      });
+      renderCalendar();
       drawLiveChart();
       syncVault();
       setInterval(syncVault, 15000);
