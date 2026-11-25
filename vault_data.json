@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-11-25T09:43:30.282465+00:00",
-  "net_return_pct": -1.24,
-  "total_r": -1.24,
-  "current_dd_pct": 4.6,
+  "updated_at": "2026-11-25T09:56:41.588994+00:00",
+  "net_return_pct": -0.93,
+  "total_r": -0.93,
+  "current_dd_pct": 4.29,
   "max_dd_pct": 5.55,
-  "win_rate_pct": 38.9,
-  "profit_factor": 0.86,
-  "total_trades": 36,
+  "win_rate_pct": 40.5,
+  "profit_factor": 0.89,
+  "total_trades": 37,
   "damper_state": "TIER-2 SHIELD",
-  "has_open_position": true,
+  "has_open_position": false,
   "telegram_channel_url": "",
   "deals": [
     {
@@ -298,6 +298,14 @@
       "type": "SELL",
       "pct": 0.1,
       "r_mult": 0.1
+    },
+    {
+      "time": "11-25 11:56",
+      "engine": "\ud83e\udd47 Gold M1",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "pct": 0.31,
+      "r_mult": 0.31
     }
   ]
 }
