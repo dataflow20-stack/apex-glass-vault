@@ -284,7 +284,7 @@
 
         const damperEl = document.getElementById('val-damper');
         damperEl.textContent = d.damper_state || 'NORMAL';
-        damperEl.style.color = (d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)';
+        damperEl.style.color = (d.damper_state && (d.damper_state.includes('TIER-3') || d.damper_state.includes('TIER-4'))) ? 'var(--red)' : ((d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)');
 
         const shieldPct = Math.max(0, Math.min(100, 100 - (ddVal / 10.0) * 100));
         document.getElementById('fill-shield').style.width = shieldPct.toFixed(1) + '%';
