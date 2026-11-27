@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-11-27T17:45:12.998744+00:00",
-  "net_return_pct": -1.07,
-  "total_r": -1.07,
-  "current_dd_pct": 4.43,
+  "updated_at": "2026-11-27T17:54:07.669078+00:00",
+  "net_return_pct": -0.34,
+  "total_r": -0.34,
+  "current_dd_pct": 3.7,
   "max_dd_pct": 5.55,
-  "win_rate_pct": 41.5,
-  "profit_factor": 0.89,
-  "total_trades": 41,
+  "win_rate_pct": 42.9,
+  "profit_factor": 0.96,
+  "total_trades": 42,
   "damper_state": "TIER-2 SHIELD",
-  "has_open_position": true,
+  "has_open_position": false,
   "telegram_channel_url": "https://t.me/ApexQuantVault",
   "deals": [
     {
@@ -379,6 +379,15 @@
       "type": "SELL",
       "pct": -0.63,
       "r_mult": -0.63
+    },
+    {
+      "date": "2026-11-27",
+      "time": "11-27 21:54",
+      "engine": "\u26a1 Nasdaq M1",
+      "symbol": "NDX100",
+      "type": "BUY",
+      "pct": 0.73,
+      "r_mult": 0.73
     }
   ]
 }
