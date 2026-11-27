@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T17:30:10.421198+00:00",
+  "updated_at": "2026-11-27T17:45:12.998744+00:00",
   "net_return_pct": -1.07,
   "total_r": -1.07,
   "current_dd_pct": 4.43,
@@ -8,7 +8,7 @@
   "profit_factor": 0.89,
   "total_trades": 41,
   "damper_state": "TIER-2 SHIELD",
-  "has_open_position": false,
+  "has_open_position": true,
   "telegram_channel_url": "https://t.me/ApexQuantVault",
   "deals": [
     {
