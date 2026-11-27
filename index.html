@@ -1,129 +1,246 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Apex Quantitative Engineering — Glass Vault Live</title>
+  <title>Apex Quantitative Engineering — Glass Vault v2.0</title>
   <style>
     :root {
-      --bg: #080c15;
-      --card: #101726;
-      --card-elev: #151e32;
-      --border: #1e293b;
-      --gold: #f59e0b;
+      --bg: #0b0f19;
+      --card: #121826;
+      --card-elev: #172033;
+      --border: rgba(148, 163, 184, 0.12);
+      --border-strong: rgba(148, 163, 184, 0.22);
+      --green: #34d399;
+      --green-soft: rgba(52, 211, 153, 0.12);
+      --red: #fb7185;
+      --red-soft: rgba(251, 113, 133, 0.12);
       --blue: #38bdf8;
-      --green: #10b981;
-      --red: #f43f5e;
-      --text: #f8fafc;
+      --blue-soft: rgba(56, 189, 248, 0.12);
+      --amber: #fbbf24;
+      --amber-soft: rgba(251, 191, 36, 0.12);
+      --text: #f1f5f9;
       --muted: #94a3b8;
+      --dim: #64748b;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 16px; line-height: 1.45; }
-    .container { max-width: 920px; margin: 0 auto; }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 14px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      font-variant-numeric: tabular-nums;
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* Header */
     header {
-      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
-      border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border);
     }
-    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
-    .brand-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .brand-title { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+    .brand-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
     .badge {
-      background: rgba(16, 185, 129, 0.14); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.45);
-      padding: 5px 11px; border-radius: 99px; font-size: 11px; font-weight: 700;
+      padding: 5px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;
       display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-soft); color: var(--green); border: 1px solid rgba(52, 211, 153, 0.35);
     }
-    .badge::before {
-      content: ""; width: 7px; height: 7px; background: var(--green); border-radius: 50%;
-      display: inline-block; animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.25; } 100% { opacity: 1; } }
+    .badge.warn { background: var(--amber-soft); color: var(--amber); border-color: rgba(251, 191, 36, 0.35); }
+    .badge.offline { background: var(--red-soft); color: var(--red); border-color: rgba(251, 113, 133, 0.35); }
+    .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
 
-    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+    /* At-a-Glance Mirror Strip */
+    .mirror-strip {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 12px; margin-bottom: 12px;
+    }
+    @media (min-width: 700px) { .mirror-strip { grid-template-columns: repeat(4, 1fr); } }
+    .mirror-item { display: flex; flex-direction: column; gap: 2px; }
+    .mirror-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--dim); }
+    .mirror-val { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .mirror-sub { font-size: 10.5px; color: var(--muted); }
+
+    /* Main KPI Grid */
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
     @media (min-width: 680px) { .grid { grid-template-columns: repeat(4, 1fr); } }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-    .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); }
-    .card-val { font-size: 22px; font-weight: 800; margin-top: 4px; }
-    .card-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-    .bar { background: #1e293b; border-radius: 99px; height: 6px; width: 100%; margin-top: 8px; overflow: hidden; }
-    .fill { background: linear-gradient(90deg, #10b981, #38bdf8); height: 100%; width: 0%; transition: width 0.4s ease; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
+    .card-title { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.45px; color: var(--muted); }
+    .card-val { font-size: 22px; font-weight: 800; margin-top: 4px; letter-spacing: -0.4px; }
+    .card-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-    .shield-banner {
-      background: var(--card-elev); border: 1px solid var(--border); border-radius: 10px;
-      padding: 10px 14px; margin-bottom: 14px;
+    /* Prop Milestone & Shield Bar */
+    .milestone-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 11px 14px; margin-bottom: 12px;
+    }
+    .milestone-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 7px; font-size: 11.5px; }
+    .milestone-track {
+      position: relative; height: 8px; border-radius: 99px;
+      background: linear-gradient(90deg, rgba(251, 113, 133, 0.35) 0%, rgba(148, 163, 184, 0.16) 55.5%, rgba(52, 211, 153, 0.35) 100%);
+      overflow: visible;
+    }
+    .milestone-zero {
+      position: absolute; left: 55.55%; top: -3px; width: 2px; height: 14px;
+      background: var(--muted); border-radius: 2px;
+    }
+    .milestone-marker {
+      position: absolute; top: -4px; width: 16px; height: 16px; border-radius: 50%;
+      background: var(--blue); border: 2.5px solid #0b0f19;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+      transform: translateX(-50%); transition: left 0.4s ease;
+    }
+    .milestone-scale { display: flex; justify-content: space-between; font-size: 10px; color: var(--dim); margin-top: 6px; }
+
+    /* Engine Split Cards */
+    .engine-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px; }
+    @media (min-width: 620px) { .engine-grid { grid-template-columns: repeat(2, 1fr); } }
+    .engine-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .engine-card.active-filter { border-color: rgba(56, 189, 248, 0.55); background: #141d2e; }
+    .engine-head { display: flex; justify-content: space-between; align-items: center; }
+    .engine-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    .engine-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: var(--card-elev); color: var(--muted); }
+    .engine-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .es-lbl { font-size: 9.5px; color: var(--dim); text-transform: uppercase; font-weight: 700; }
+    .es-val { font-size: 13px; font-weight: 800; margin-top: 1px; }
+
+    /* Filter & Banner Row */
+    .controls-bar {
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-      font-size: 12px; color: var(--muted);
-    }
-    .shield-banner strong { color: var(--text); }
-    .pill {
-      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px;
-      background: rgba(56, 189, 248, 0.14); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.35);
-    }
-
-    .chart-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
-    .chart-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-    .chart-title { font-size: 15px; font-weight: 700; color: var(--text); }
-    .chart-subtitle { font-size: 12px; color: var(--muted); }
-    .canvas-wrap { position: relative; width: 100%; height: 265px; }
-    canvas { width: 100% !important; height: 100% !important; }
-
-    /* Monthly PnL Calendar */
-    .cal-header {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
       margin-bottom: 12px;
     }
-    .cal-nav { display: inline-flex; align-items: center; gap: 8px; }
-    .cal-btn {
-      background: var(--card-elev); color: var(--text); border: 1px solid var(--border);
-      border-radius: 8px; padding: 5px 11px; font-size: 12px; font-weight: 700; cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+    .filter-group {
+      display: inline-flex; background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 3px; gap: 3px;
     }
-    .cal-btn:hover:not(:disabled) { background: #1e293b; border-color: var(--blue); }
-    .cal-btn:disabled { opacity: 0.38; cursor: not-allowed; }
-    .cal-month-label { font-size: 14px; font-weight: 800; min-width: 128px; text-align: center; }
-    .cal-summary { font-size: 11.5px; color: var(--muted); font-weight: 600; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .cal-dow {
-      text-align: center; font-size: 10.5px; font-weight: 700; color: var(--muted);
-      padding-bottom: 4px; text-transform: uppercase;
+    .filter-btn {
+      background: transparent; color: var(--muted); border: none; border-radius: 7px;
+      padding: 6px 11px; font-size: 11.5px; font-weight: 700; cursor: pointer;
+      transition: all 0.15s;
     }
-    .cal-cell {
-      background: #0c1220; border: 1px solid var(--border); border-radius: 8px;
-      min-height: 62px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .cal-cell.empty-day { background: transparent; border-color: transparent; }
-    .cal-cell.weekend { background: rgba(15, 23, 42, 0.35); opacity: 0.65; }
-    .cal-cell.win-day {
-      background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.45);
-    }
-    .cal-cell.loss-day {
-      background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.45);
-    }
-    .cal-day-num { font-size: 10.5px; color: var(--muted); font-weight: 700; }
-    .cal-day-pct { font-size: 12px; font-weight: 800; margin-top: 2px; }
-    .cal-day-meta { font-size: 10px; color: var(--muted); margin-top: 1px; }
-    @media (max-width: 520px) {
-      .cal-grid { gap: 4px; }
-      .cal-cell { min-height: 54px; padding: 4px; }
-      .cal-day-pct { font-size: 10.5px; }
-      .cal-day-meta { font-size: 9px; }
+    .filter-btn:hover { color: var(--text); }
+    .filter-btn.active { background: var(--card-elev); color: var(--blue); box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.35); }
+    .pill {
+      font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 99px;
+      background: var(--blue-soft); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    .table-wrap { overflow-x: auto; margin-top: 8px; }
-    table { width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left; }
-    th { background: #141c2e; color: var(--muted); padding: 9px 10px; font-weight: 600; font-size: 11px; white-space: nowrap; }
-    td { padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    .empty { text-align: center; color: var(--muted); padding: 22px; font-size: 13px; }
+    /* Chart Card */
+    .chart-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .chart-title { font-size: 14px; font-weight: 800; }
+    .chart-subtitle { font-size: 11px; color: var(--muted); }
+    .chart-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .zoom-toggle {
+      display: inline-flex; background: #0c1220; border: 1px solid var(--border); border-radius: 8px; padding: 2px;
+    }
+    .zoom-btn {
+      background: transparent; color: var(--muted); border: none; border-radius: 6px;
+      padding: 4px 9px; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .zoom-btn.active { background: var(--card-elev); color: var(--text); }
+
+    .canvas-wrap { position: relative; width: 100%; height: 245px; touch-action: pan-y; }
+    .dd-wrap { position: relative; width: 100%; height: 74px; margin-top: 4px; border-top: 1px solid var(--border); padding-top: 4px; }
+    .dd-label { position: absolute; left: 54px; top: 6px; font-size: 9.5px; font-weight: 700; color: var(--dim); pointer-events: none; z-index: 2; }
+    canvas { width: 100% !important; height: 100% !important; display: block; }
+
+    .chart-tooltip {
+      position: absolute; pointer-events: none; z-index: 10; display: none;
+      background: rgba(11, 15, 25, 0.96); border: 1px solid var(--border-strong);
+      border-radius: 9px; padding: 8px 10px; min-width: 168px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55); font-size: 11px;
+    }
+    .tt-head { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 4px; color: var(--text); gap: 8px; }
+    .tt-row { display: flex; justify-content: space-between; color: var(--muted); margin-top: 2px; gap: 10px; }
+    .tt-row strong { color: var(--text); }
+
+    /* Calendar */
+    .cal-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .cal-nav { display: inline-flex; align-items: center; gap: 6px; }
+    .cal-btn {
+      background: var(--card-elev); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer;
+    }
+    .cal-btn:hover:not(:disabled) { border-color: var(--blue); }
+    .cal-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .cal-month-label { font-size: 13px; font-weight: 800; min-width: 116px; text-align: center; }
+    .cal-summary { font-size: 11px; color: var(--muted); font-weight: 600; }
+
+    .week-strip { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .week-pill {
+      font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 7px;
+      background: #0d1322; border: 1px solid var(--border); color: var(--muted);
+    }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+    .cal-dow { text-align: center; font-size: 10px; font-weight: 700; color: var(--dim); padding-bottom: 3px; text-transform: uppercase; }
+    .cal-cell {
+      background: #0d1322; border: 1px solid var(--border); border-radius: 8px;
+      min-height: 58px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .cal-cell.empty-day { background: transparent; border-color: transparent; }
+    .cal-cell.weekend { background: rgba(15, 23, 42, 0.3); opacity: 0.55; }
+    .cal-cell.win-day { background: var(--green-soft); border-color: rgba(52, 211, 153, 0.38); }
+    .cal-cell.loss-day { background: var(--red-soft); border-color: rgba(251, 113, 133, 0.38); }
+    .cal-day-num { font-size: 10px; color: var(--muted); font-weight: 700; }
+    .cal-day-pct { font-size: 11.5px; font-weight: 800; }
+    .cal-day-meta { font-size: 9.5px; color: var(--muted); }
+    @media (max-width: 520px) {
+      .cal-grid { gap: 3.5px; }
+      .cal-cell { min-height: 50px; padding: 4px; }
+      .cal-day-pct { font-size: 10px; }
+      .cal-day-meta { font-size: 8.5px; }
+    }
+
+    /* Closed Trades: Desktop Table + Mobile Cards (Zero Horizontal Scroll) */
+    .table-wrap { display: none; margin-top: 8px; }
+    @media (min-width: 640px) { .table-wrap { display: block; } .mobile-deals { display: none; } }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th { background: #161f33; color: var(--muted); padding: 8px 10px; font-weight: 700; font-size: 10.5px; text-transform: uppercase; }
+    td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+
+    .mobile-deals { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+    .m-deal {
+      background: #0d1322; border: 1px solid var(--border); border-radius: 10px;
+      padding: 9px 11px; display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    }
+    .m-deal-left { display: flex; flex-direction: column; gap: 2px; }
+    .m-deal-top { font-size: 12.5px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    .m-dir { font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 5px; }
+    .m-dir.buy { background: var(--green-soft); color: var(--green); }
+    .m-dir.sell { background: var(--red-soft); color: var(--red); }
+    .m-deal-sub { font-size: 10.5px; color: var(--muted); }
+    .m-deal-right { text-align: right; }
+    .m-deal-pct { font-size: 13.5px; font-weight: 800; }
+    .m-deal-r { font-size: 10.5px; color: var(--muted); }
+    .empty { text-align: center; color: var(--muted); padding: 20px; font-size: 12.5px; }
+
+    .zero-leak-note {
+      background: rgba(18, 24, 38, 0.7); border: 1px solid var(--border); border-radius: 10px;
+      padding: 9px 12px; margin-bottom: 12px; font-size: 11px; color: var(--muted);
+    }
+    .zero-leak-note strong { color: var(--text); }
 
     .footer {
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-      padding: 12px 2px 24px; font-size: 12px; color: var(--muted);
+      padding: 8px 2px 24px; font-size: 11.5px; color: var(--dim);
     }
     .tg-btn {
       display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
-      background: rgba(56, 189, 248, 0.14); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.45);
-      padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 12px;
+      background: var(--blue-soft); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 7px 13px; border-radius: 8px; font-weight: 700; font-size: 11.5px;
     }
-    .tg-btn:hover { background: rgba(56, 189, 248, 0.24); }
+    .tg-btn:hover { background: rgba(56, 189, 248, 0.22); }
   </style>
 </head>
 <body>
@@ -131,11 +248,38 @@
     <header>
       <div>
         <div class="brand-title">APEX QUANTITATIVE ENGINEERING</div>
-        <div class="brand-sub">Glass Vault &bull; Verified Algorithmic Portfolio #01 (XAUUSD &amp; NDX100 M1)</div>
+        <div class="brand-sub">Glass Vault v2.0 &bull; Verified Algorithmic Portfolio #01 (XAUUSD &amp; NDX100 M1)</div>
       </div>
-      <span class="badge" id="sync-badge">LIVE VERIFIED</span>
+      <div class="header-right">
+        <span class="badge" id="sync-badge"><span class="badge-dot"></span><span id="sync-badge-text">SYNCING</span></span>
+      </div>
     </header>
 
+    <!-- At-a-Glance Mirror Strip -->
+    <div class="mirror-strip">
+      <div class="mirror-item">
+        <span class="mirror-label">New York Clock</span>
+        <span class="mirror-val" id="ny-clock">--:--:-- NY</span>
+        <span class="mirror-sub" id="ny-day">---</span>
+      </div>
+      <div class="mirror-item">
+        <span class="mirror-label">Killzone Status</span>
+        <span class="mirror-val" id="killzone-status">Checking...</span>
+        <span class="mirror-sub" id="killzone-next">---</span>
+      </div>
+      <div class="mirror-item">
+        <span class="mirror-label" id="today-label">Latest Session</span>
+        <span class="mirror-val" id="today-pnl">0.00%</span>
+        <span class="mirror-sub" id="today-meta">0 trades</span>
+      </div>
+      <div class="mirror-item">
+        <span class="mirror-label">Daily Streak</span>
+        <span class="mirror-val" id="streak-val">--</span>
+        <span class="mirror-sub" id="last-updated-mini">Updated: --</span>
+      </div>
+    </div>
+
+    <!-- Main KPI Cards -->
     <div class="grid">
       <div class="card">
         <div class="card-title">Net Return</div>
@@ -149,39 +293,100 @@
       </div>
       <div class="card">
         <div class="card-title">Win Rate &bull; Trades</div>
-        <div class="card-val" id="val-winrate" style="color: var(--text); font-size: 19px;">--% (0)</div>
+        <div class="card-val" id="val-winrate" style="font-size: 19px;">--% (0)</div>
         <div class="card-sub" id="val-pf">Profit Factor: --</div>
       </div>
       <div class="card">
         <div class="card-title">HJB Risk Damper</div>
-        <div class="card-val" id="val-damper" style="color: var(--green); font-size: 18px;">NORMAL</div>
-        <div class="bar"><div class="fill" id="fill-shield" style="width: 100%;"></div></div>
+        <div class="card-val" id="val-damper" style="color: var(--green); font-size: 17px;">NORMAL</div>
+        <div class="card-sub" id="val-damper-hint">Full Risk Allocation</div>
       </div>
     </div>
 
-    <div class="shield-banner">
-      <div>🔒 <strong>Zero-Leak Glass Vault:</strong> Live entries, lot sizes &amp; account credentials are masked to protect execution edge. Only verified closed results (% &amp; R) are published.</div>
-      <span class="pill" id="live-state-pill">Monitoring Killzones</span>
+    <!-- Prop Firm Recovery & Milestone Track -->
+    <div class="milestone-box">
+      <div class="milestone-top">
+        <span style="font-weight:700;">🎯 Phase 1 Progress Track <span style="color:var(--muted); font-weight:600;" id="milestone-gap"></span></span>
+        <span style="color:var(--muted);" id="shield-remaining">Max Loss Buffer: 10.0%</span>
+      </div>
+      <div class="milestone-track">
+        <div class="milestone-zero" title="0.0% Baseline"></div>
+        <div class="milestone-marker" id="milestone-marker" style="left: 55.55%;"></div>
+      </div>
+      <div class="milestone-scale">
+        <span style="color:var(--red);">-10.0% Max Shield</span>
+        <span>0.0% Baseline</span>
+        <span style="color:var(--green);">+8.0% Milestone</span>
+      </div>
     </div>
 
+    <!-- Gold vs Nasdaq Split -->
+    <div class="engine-grid">
+      <div class="engine-card" id="card-gold">
+        <div class="engine-head">
+          <span class="engine-name">🥇 Gold Scalper M1</span>
+          <span class="engine-tag">XAUUSD &bull; v11.19B</span>
+        </div>
+        <div class="engine-stats">
+          <div><div class="es-lbl">Return</div><div class="es-val" id="gold-pct">0.00%</div></div>
+          <div><div class="es-lbl">R-Mult</div><div class="es-val" id="gold-r">0.00R</div></div>
+          <div><div class="es-lbl">Win Rate</div><div class="es-val" id="gold-wr">--%</div></div>
+          <div><div class="es-lbl">PF / N</div><div class="es-val" id="gold-pf">--</div></div>
+        </div>
+      </div>
+      <div class="engine-card" id="card-ndx">
+        <div class="engine-head">
+          <span class="engine-name">⚡ Nasdaq Scalper M1</span>
+          <span class="engine-tag">NDX100 &bull; v11.13A</span>
+        </div>
+        <div class="engine-stats">
+          <div><div class="es-lbl">Return</div><div class="es-val" id="ndx-pct">0.00%</div></div>
+          <div><div class="es-lbl">R-Mult</div><div class="es-val" id="ndx-r">0.00R</div></div>
+          <div><div class="es-lbl">Win Rate</div><div class="es-val" id="ndx-wr">--%</div></div>
+          <div><div class="es-lbl">PF / N</div><div class="es-val" id="ndx-pf">--</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fast Engine Filter + Live State -->
+    <div class="controls-bar">
+      <div class="filter-group" id="engine-filter">
+        <button class="filter-btn active" data-filter="ALL" type="button">All Portfolio</button>
+        <button class="filter-btn" data-filter="GOLD" type="button">🥇 Gold</button>
+        <button class="filter-btn" data-filter="NDX" type="button">⚡ Nasdaq</button>
+      </div>
+      <span class="pill" id="live-state-pill">🛡️ Flat — Scanning Killzones</span>
+    </div>
+
+    <!-- Pro Equity Curve + Underwater Drawdown -->
     <div class="chart-box">
       <div class="chart-header">
         <div>
-          <div class="chart-title">📈 Verified Equity Curve (% Return)</div>
-          <div class="chart-subtitle">Automated MT5 Telemetry &bull; Trade-by-Trade Closed Performance</div>
+          <div class="chart-title" id="chart-title">📈 Verified Equity Curve (% Return)</div>
+          <div class="chart-subtitle">Hover or tap chart to inspect each trade &bull; Underwater DD below</div>
         </div>
-        <div style="font-size: 12px; font-weight: 700; color: var(--blue);" id="last-updated">Syncing...</div>
+        <div class="chart-actions">
+          <div class="zoom-toggle">
+            <button class="zoom-btn active" id="btn-zoom" type="button">Auto-Zoom</button>
+            <button class="zoom-btn" id="btn-full" type="button">Full (-10% / +8%)</button>
+          </div>
+        </div>
       </div>
-      <div class="canvas-wrap">
+      <div class="canvas-wrap" id="chart-wrap">
         <canvas id="equityCanvas"></canvas>
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+      </div>
+      <div class="dd-wrap">
+        <span class="dd-label">UNDERWATER DRAWDOWN (%)</span>
+        <canvas id="ddCanvas"></canvas>
       </div>
     </div>
 
-    <!-- Monthly Daily PnL & Trade Count Calendar -->
-    <div class="card" style="margin-bottom: 14px;">
+    <!-- Monthly Performance Calendar -->
+    <div class="card" style="margin-bottom: 12px;">
       <div class="cal-header">
         <div>
-          <div style="font-size: 14px; font-weight: 700;">📅 Monthly Performance Calendar (Daily % &amp; Trades)</div>
+          <div style="font-size: 14px; font-weight: 800;">📅 Monthly Performance Calendar</div>
           <div class="cal-summary" id="cal-month-summary">Month Total: 0.00% &bull; 0 trades</div>
         </div>
         <div class="cal-nav">
@@ -190,19 +395,20 @@
           <button class="cal-btn" id="cal-next" type="button">Next &rarr;</button>
         </div>
       </div>
+      <div class="week-strip" id="week-strip"></div>
       <div class="cal-grid" id="cal-grid"></div>
     </div>
 
-    <!-- Paginated Closed Trades (5 per page) -->
-    <div class="card" style="margin-bottom: 14px;">
-      <div class="cal-header" style="margin-bottom:8px;">
+    <!-- Paginated Closed Trades -->
+    <div class="card" style="margin-bottom: 12px;">
+      <div class="cal-header" style="margin-bottom: 6px;">
         <div>
-          <div style="font-size: 14px; font-weight: 700;">📜 Closed Trades Log (% &amp; R-Multiple)</div>
+          <div style="font-size: 14px; font-weight: 800;">📜 Closed Trades Log (% &amp; R-Multiple)</div>
           <div style="font-size: 11px; color: var(--muted);" id="history-count">Showing 0 of 0</div>
         </div>
         <div class="cal-nav">
           <button class="cal-btn" id="deals-prev" type="button" disabled>&larr; Newer</button>
-          <span class="cal-summary" id="deals-page-label" style="min-width:74px; text-align:center;">Page 1 / 1</span>
+          <span class="cal-summary" id="deals-page-label" style="min-width:68px; text-align:center;">Page 1 / 1</span>
           <button class="cal-btn" id="deals-next" type="button" disabled>Older &rarr;</button>
         </div>
       </div>
@@ -219,10 +425,17 @@
             </tr>
           </thead>
           <tbody id="deals-tbody">
-            <tr><td colspan="6" class="empty">Loading verified trade telemetry...</td></tr>
+            <tr><td colspan="6" class="empty">Loading verified telemetry...</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="mobile-deals" id="deals-mobile">
+        <div class="empty">Loading verified telemetry...</div>
+      </div>
+    </div>
+
+    <div class="zero-leak-note">
+      🔒 <strong>Zero-Leak Glass Vault:</strong> Live entries, lot sizes, balance USD &amp; credentials are masked to protect execution edge. Only verified closed results (% &amp; R) are published.
     </div>
 
     <div class="footer">
@@ -234,26 +447,596 @@
   </div>
 
   <script>
-    let pctCurve = [{ label: "Start", pct: 0.0 }];
     let allDeals = [];
+    let activeFilter = 'ALL'; // ALL | GOLD | NDX
+    let zoomMode = 'zoom';    // zoom | full
     let dealsPage = 1;
     const DEALS_PER_PAGE = 5;
 
+    let curvePoints = [];
+    let hoverIdx = -1;
+    let lastUpdatedIso = null;
+
+    let refYear = new Date().getUTCFullYear();
+    let calYear = new Date().getUTCFullYear();
+    let calMonth = new Date().getUTCMonth();
+    let calInitialized = false;
+
+    const MONTH_NAMES = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+
+    function classifyDealEngine(deal) {
+      const sym = String(deal.symbol || '').toUpperCase();
+      const eng = String(deal.engine || '').toUpperCase();
+      if (sym.includes('XAU') || sym.includes('GOLD') || eng.includes('GOLD')) return 'GOLD';
+      if (sym.includes('NDX') || sym.includes('NAS') || sym.includes('USTEC') || eng.includes('NASDAQ')) return 'NDX';
+      return 'OTHER';
+    }
+
+    function getFilteredDeals() {
+      if (activeFilter === 'ALL') return allDeals;
+      return allDeals.filter(d => classifyDealEngine(d) === activeFilter);
+    }
+
+    function getDealDateKey(deal) {
+      if (deal.date && /^\d{4}-\d{2}-\d{2}$/.test(deal.date)) return deal.date;
+      if (deal.time && /^\d{2}-\d{2}/.test(deal.time)) return refYear + "-" + deal.time.slice(0, 5);
+      return null;
+    }
+
+    function computeEngineStats(deals) {
+      const n = deals.length;
+      if (n === 0) return { n: 0, pct: 0, r: 0, wr: null, pf: null };
+      let pct = 0, r = 0, wins = 0, grossW = 0, grossL = 0;
+      deals.forEach(d => {
+        const p = Number(d.pct || 0);
+        const rm = Number(d.r_mult || 0);
+        pct += p;
+        r += rm;
+        if (p > 0) { wins += 1; grossW += p; }
+        else if (p < 0) { grossL += Math.abs(p); }
+      });
+      const wr = (wins / n) * 100;
+      const pf = grossL > 0 ? (grossW / grossL) : (grossW > 0 ? Infinity : null);
+      return { n, pct, r, wr, pf };
+    }
+
+    function renderEngineCards() {
+      const goldStats = computeEngineStats(allDeals.filter(d => classifyDealEngine(d) === 'GOLD'));
+      const ndxStats = computeEngineStats(allDeals.filter(d => classifyDealEngine(d) === 'NDX'));
+
+      function fillCard(prefix, st) {
+        const pctEl = document.getElementById(prefix + '-pct');
+        const rEl = document.getElementById(prefix + '-r');
+        const wrEl = document.getElementById(prefix + '-wr');
+        const pfEl = document.getElementById(prefix + '-pf');
+        const col = st.pct >= 0 ? 'var(--green)' : 'var(--red)';
+        pctEl.textContent = (st.pct >= 0 ? '+' : '') + st.pct.toFixed(2) + '%';
+        pctEl.style.color = col;
+        rEl.textContent = (st.r >= 0 ? '+' : '') + st.r.toFixed(2) + 'R';
+        rEl.style.color = col;
+        wrEl.textContent = st.wr !== null ? st.wr.toFixed(1) + '%' : '--%';
+        const pfTxt = st.pf === null ? '--' : (st.pf === Infinity ? '∞' : st.pf.toFixed(2));
+        pfEl.textContent = `${pfTxt} (${st.n})`;
+      }
+
+      fillCard('gold', goldStats);
+      fillCard('ndx', ndxStats);
+
+      document.getElementById('card-gold').classList.toggle('active-filter', activeFilter === 'GOLD');
+      document.getElementById('card-ndx').classList.toggle('active-filter', activeFilter === 'NDX');
+    }
+
+    function updateNyClockAndSession() {
+      const now = new Date();
+      try {
+        const fmt = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/New_York',
+          weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        });
+        const parts = Object.fromEntries(fmt.formatToParts(now).map(p => [p.type, p.value]));
+        const wd = parts.weekday;
+        const hh = parseInt(parts.hour, 10) % 24;
+        const mm = parseInt(parts.minute, 10);
+        const mins = hh * 60 + mm;
+
+        document.getElementById('ny-clock').textContent = `${String(hh).padStart(2,'0')}:${parts.minute}:${parts.second} NY`;
+        document.getElementById('ny-day').textContent = `${wd} • UTC ${now.toISOString().slice(11,16)}`;
+
+        const kzEl = document.getElementById('killzone-status');
+        const nextEl = document.getElementById('killzone-next');
+        const isWeekend = (wd === 'Sat') || (wd === 'Fri' && mins >= 1020) || (wd === 'Sun' && mins < 1080);
+
+        if (isWeekend) {
+          kzEl.textContent = '🌙 Market Closed';
+          kzEl.style.color = 'var(--muted)';
+          nextEl.textContent = 'Weekend — Reopens Sun 18:00 NY';
+        } else if (mins >= 120 && mins < 300) {
+          kzEl.textContent = '🥇 Gold C1 Active';
+          kzEl.style.color = 'var(--green)';
+          nextEl.textContent = 'London Open (02:00–05:00 NY)';
+        } else if ((mins >= 420 && mins < 500) || (mins >= 520 && mins < 555)) {
+          kzEl.textContent = '🥇 Gold C2 Active';
+          kzEl.style.color = 'var(--green)';
+          nextEl.textContent = 'NY Pre-Market (07:00–09:15 NY)';
+        } else if (mins >= 555 && mins < 660) {
+          kzEl.textContent = '⚡ Nasdaq C3 Active';
+          kzEl.style.color = 'var(--blue)';
+          nextEl.textContent = 'NY Equities Open (09:15–11:00 NY)';
+        } else if (mins >= 660 && mins < 765) {
+          kzEl.textContent = '⚡ Nasdaq C4 Active';
+          kzEl.style.color = 'var(--blue)';
+          nextEl.textContent = 'NY Mid-Session (11:00–12:45 NY)';
+        } else {
+          kzEl.textContent = '🛡️ Standby / Off-KZ';
+          kzEl.style.color = 'var(--amber)';
+          if (mins < 120) nextEl.textContent = 'Next: Gold C1 at 02:00 NY';
+          else if (mins < 420) nextEl.textContent = 'Next: Gold C2 at 07:00 NY';
+          else nextEl.textContent = 'Next: Gold C1 tomorrow 02:00 NY';
+        }
+
+        // Update Watchdog Badge
+        updateWatchdogBadge(isWeekend);
+      } catch (e) {}
+    }
+
+    function updateWatchdogBadge(isWeekend) {
+      const badge = document.getElementById('sync-badge');
+      const txt = document.getElementById('sync-badge-text');
+      if (!lastUpdatedIso) return;
+      const ageMin = Math.max(0, Math.floor((Date.now() - new Date(lastUpdatedIso).getTime()) / 60000));
+      const ageStr = ageMin < 60 ? `${ageMin}m ago` : `${Math.floor(ageMin / 60)}h ${ageMin % 60}m ago`;
+      document.getElementById('last-updated-mini').textContent = `Sync: ${ageStr}`;
+
+      badge.classList.remove('warn', 'offline');
+      if (ageMin <= 20) {
+        txt.textContent = `LIVE • ${ageMin}m ago`;
+      } else if (isWeekend) {
+        txt.textContent = 'WEEKEND SYNCED';
+      } else if (ageMin <= 60) {
+        badge.classList.add('warn');
+        txt.textContent = `DELAYED • ${ageMin}m ago`;
+      } else {
+        badge.classList.add('offline');
+        txt.textContent = `CHECK PC • ${ageStr}`;
+      }
+    }
+
+    function renderDailySummaryAndStreak() {
+      const dailyTotals = {};
+      allDeals.forEach(d => {
+        const k = getDealDateKey(d);
+        if (!k) return;
+        if (!dailyTotals[k]) dailyTotals[k] = { pct: 0, r: 0, count: 0 };
+        dailyTotals[k].pct += Number(d.pct || 0);
+        dailyTotals[k].r += Number(d.r_mult || 0);
+        dailyTotals[k].count += 1;
+      });
+      const dates = Object.keys(dailyTotals).sort();
+      const todayKey = new Date().toISOString().slice(0, 10);
+
+      const pnlEl = document.getElementById('today-pnl');
+      const metaEl = document.getElementById('today-meta');
+      const lblEl = document.getElementById('today-label');
+
+      if (dailyTotals[todayKey]) {
+        const t = dailyTotals[todayKey];
+        lblEl.textContent = "Today's PnL";
+        pnlEl.textContent = `${t.pct >= 0 ? '+' : ''}${t.pct.toFixed(2)}%`;
+        pnlEl.style.color = t.pct >= 0 ? 'var(--green)' : 'var(--red)';
+        metaEl.textContent = `${t.r >= 0 ? '+' : ''}${t.r.toFixed(2)}R • ${t.count} trade${t.count === 1 ? '' : 's'}`;
+      } else if (dates.length > 0) {
+        const lastKey = dates[dates.length - 1];
+        const t = dailyTotals[lastKey];
+        lblEl.textContent = `Last Session (${lastKey.slice(5)})`;
+        pnlEl.textContent = `${t.pct >= 0 ? '+' : ''}${t.pct.toFixed(2)}%`;
+        pnlEl.style.color = t.pct >= 0 ? 'var(--green)' : 'var(--red)';
+        metaEl.textContent = `${t.r >= 0 ? '+' : ''}${t.r.toFixed(2)}R • ${t.count} trade${t.count === 1 ? '' : 's'}`;
+      }
+
+      // Compute consecutive Green/Red trading days streak
+      const streakEl = document.getElementById('streak-val');
+      if (dates.length === 0) {
+        streakEl.textContent = '--';
+        return;
+      }
+      const lastDay = dailyTotals[dates[dates.length - 1]];
+      const isGreen = lastDay.pct >= 0;
+      let count = 0;
+      for (let i = dates.length - 1; i >= 0; i--) {
+        const val = dailyTotals[dates[i]].pct;
+        if (isGreen ? val >= 0 : val < 0) count++;
+        else break;
+      }
+      streakEl.textContent = isGreen ? `🔥 ${count} Green Day${count === 1 ? '' : 's'}` : `🛡️ ${count} Red Day${count === 1 ? '' : 's'}`;
+      streakEl.style.color = isGreen ? 'var(--green)' : 'var(--red)';
+    }
+
+    function buildCurvePoints() {
+      const deals = getFilteredDeals();
+      const pts = [{ idx: 0, label: 'Start', pct: 0, dd: 0, deal: null }];
+      let cum = 0;
+      let peak = 0;
+      deals.forEach((deal, i) => {
+        cum += Number(deal.pct || 0);
+        if (cum > peak) peak = cum;
+        const dd = cum - peak; // <= 0
+        pts.push({ idx: i + 1, label: '#' + (i + 1), pct: cum, dd, deal });
+      });
+      curvePoints = pts;
+    }
+
+    function drawCharts() {
+      const eqCanvas = document.getElementById('equityCanvas');
+      const ddCanvas = document.getElementById('ddCanvas');
+      if (!eqCanvas || !ddCanvas) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const eqRect = eqCanvas.getBoundingClientRect();
+      const ddRect = ddCanvas.getBoundingClientRect();
+      if (eqRect.width <= 0) return;
+
+      eqCanvas.width = eqRect.width * dpr;
+      eqCanvas.height = eqRect.height * dpr;
+      ddCanvas.width = ddRect.width * dpr;
+      ddCanvas.height = ddRect.height * dpr;
+
+      const ctx = eqCanvas.getContext('2d');
+      const dctx = ddCanvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      dctx.scale(dpr, dpr);
+
+      const w = eqRect.width;
+      const h = eqRect.height;
+      const dh = ddRect.height;
+      const padL = 52, padR = 16, padT = 18, padB = 22;
+      ctx.clearRect(0, 0, w, h);
+      dctx.clearRect(0, 0, w, dh);
+
+      const pts = curvePoints.length ? curvePoints : [{ idx: 0, label: 'Start', pct: 0, dd: 0, deal: null }];
+      const vals = pts.map(p => p.pct);
+      const rawMin = Math.min(...vals, 0);
+      const rawMax = Math.max(...vals, 0);
+
+      let minV, maxV;
+      if (zoomMode === 'full') {
+        minV = Math.min(-10.0, Math.floor(rawMin - 1));
+        maxV = Math.max(8.5, Math.ceil(rawMax + 1));
+      } else {
+        const span = Math.max(1.2, rawMax - rawMin);
+        const pad = Math.max(0.5, span * 0.22);
+        minV = rawMin - pad;
+        maxV = rawMax + pad;
+      }
+
+      const getX = (i) => (pts.length <= 1 ? padL : padL + (i / (pts.length - 1)) * (w - padL - padR));
+      const getY = (v) => padT + (1 - (v - minV) / (maxV - minV)) * (h - padT - padB);
+
+      // Horizontal Grid & High-Contrast Labels
+      ctx.font = '600 10.5px -apple-system, sans-serif';
+      ctx.textBaseline = 'middle';
+
+      const gridLines = [];
+      if (zoomMode === 'full') {
+        gridLines.push(
+          { val: 8.0, text: '+8.0%', badge: '+8.0% Milestone', col: '#34d399', dash: [4, 4] },
+          { val: 4.0, text: '+4.0%', col: 'rgba(148,163,184,0.12)', dash: [] },
+          { val: 0.0, text: '0.0%', col: 'rgba(148,163,184,0.45)', dash: [3, 3] },
+          { val: -5.0, text: '-5.0%', col: 'rgba(148,163,184,0.12)', dash: [] },
+          { val: -10.0, text: '-10.0%', badge: '-10.0% Max Shield', col: '#fb7185', dash: [4, 4] }
+        );
+      } else {
+        const steps = 4;
+        for (let s = 0; s <= steps; s++) {
+          const v = minV + (s / steps) * (maxV - minV);
+          gridLines.push({ val: v, text: (v >= 0 ? '+' : '') + v.toFixed(1) + '%', col: 'rgba(148,163,184,0.11)', dash: [] });
+        }
+        gridLines.push({ val: 0.0, text: '0.0%', col: 'rgba(148,163,184,0.45)', dash: [3, 3], isZero: true });
+      }
+
+      gridLines.forEach(g => {
+        if (g.val < minV - 0.01 || g.val > maxV + 0.01) return;
+        const y = getY(g.val);
+        ctx.strokeStyle = g.col;
+        ctx.lineWidth = g.isZero || g.badge ? 1.15 : 0.8;
+        ctx.setLineDash(g.dash || []);
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(w - padR, y);
+        ctx.stroke();
+
+        ctx.fillStyle = g.badge ? g.col : (g.isZero ? '#cbd5e1' : '#94a3b8');
+        ctx.textAlign = 'right';
+        ctx.fillText(g.text, padL - 7, y);
+
+        if (g.badge) {
+          ctx.textAlign = 'right';
+          ctx.fillText(g.badge, w - padR - 2, y - 9);
+        }
+      });
+      ctx.setLineDash([]);
+
+      // Equity Area Fill & Smooth Line
+      const lastPt = pts[pts.length - 1];
+      const lineCol = lastPt.pct >= 0 ? '#34d399' : '#38bdf8';
+      const zeroY = Math.min(h - padB, Math.max(padT, getY(0)));
+
+      const grad = ctx.createLinearGradient(0, padT, 0, h - padB);
+      grad.addColorStop(0, lastPt.pct >= 0 ? 'rgba(52, 211, 153, 0.28)' : 'rgba(56, 189, 248, 0.24)');
+      grad.addColorStop(1, 'rgba(11, 15, 25, 0.0)');
+
+      ctx.beginPath();
+      ctx.moveTo(getX(0), zeroY);
+      pts.forEach((p, i) => ctx.lineTo(getX(i), getY(p.pct)));
+      ctx.lineTo(getX(pts.length - 1), zeroY);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      ctx.beginPath();
+      pts.forEach((p, i) => {
+        const x = getX(i), y = getY(p.pct);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = lineCol;
+      ctx.lineWidth = 2.4;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      // Single Glowing Marker on Latest Trade (No Cluttered Dots)
+      const lx = getX(pts.length - 1);
+      const ly = getY(lastPt.pct);
+      ctx.beginPath();
+      ctx.arc(lx, ly, 7.5, 0, Math.PI * 2);
+      ctx.fillStyle = lastPt.pct >= 0 ? 'rgba(52, 211, 153, 0.25)' : 'rgba(56, 189, 248, 0.25)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(lx, ly, 3.8, 0, Math.PI * 2);
+      ctx.fillStyle = lineCol;
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      // X-Axis Trade Count Labels
+      ctx.fillStyle = '#64748b';
+      ctx.font = '600 9.5px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      const xTicks = [0, Math.floor((pts.length - 1) / 2), pts.length - 1];
+      [...new Set(xTicks)].forEach(ti => {
+        ctx.fillText(pts[ti].label, getX(ti), h - 8);
+      });
+
+      // --- Underwater Drawdown Sub-Chart ---
+      const ddMin = Math.min(-2.0, Math.floor(Math.min(...pts.map(p => p.dd), -1) - 0.5));
+      const dPadT = 10, dPadB = 10;
+      const getDY = (v) => dPadT + (1 - (v - ddMin) / (0 - ddMin)) * (dh - dPadT - dPadB);
+
+      dctx.strokeStyle = 'rgba(148,163,184,0.16)';
+      dctx.lineWidth = 0.8;
+      dctx.beginPath();
+      dctx.moveTo(padL, dPadT);
+      dctx.lineTo(w - padR, dPadT);
+      dctx.stroke();
+
+      dctx.fillStyle = '#94a3b8';
+      dctx.font = '600 9.5px -apple-system, sans-serif';
+      dctx.textAlign = 'right';
+      dctx.textBaseline = 'middle';
+      dctx.fillText('0%', padL - 7, dPadT);
+      dctx.fillText(ddMin.toFixed(0) + '%', padL - 7, dh - dPadB);
+
+      const ddGrad = dctx.createLinearGradient(0, dPadT, 0, dh - dPadB);
+      ddGrad.addColorStop(0, 'rgba(251, 113, 133, 0.08)');
+      ddGrad.addColorStop(1, 'rgba(251, 113, 133, 0.34)');
+
+      dctx.beginPath();
+      dctx.moveTo(getX(0), dPadT);
+      pts.forEach((p, i) => dctx.lineTo(getX(i), getDY(p.dd)));
+      dctx.lineTo(getX(pts.length - 1), dPadT);
+      dctx.closePath();
+      dctx.fillStyle = ddGrad;
+      dctx.fill();
+
+      dctx.beginPath();
+      pts.forEach((p, i) => {
+        const x = getX(i), y = getDY(p.dd);
+        if (i === 0) dctx.moveTo(x, y);
+        else dctx.lineTo(x, y);
+      });
+      dctx.strokeStyle = '#fb7185';
+      dctx.lineWidth = 1.4;
+      dctx.stroke();
+
+      // Interactive Crosshair on Hover/Touch
+      if (hoverIdx >= 0 && hoverIdx < pts.length) {
+        const hp = pts[hoverIdx];
+        const hx = getX(hoverIdx);
+        const hy = getY(hp.pct);
+        const hdy = getDY(hp.dd);
+
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(hx, padT); ctx.lineTo(hx, h - padB); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.beginPath(); ctx.arc(hx, hy, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff'; ctx.fill();
+        ctx.strokeStyle = lineCol; ctx.lineWidth = 2.2; ctx.stroke();
+
+        dctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+        dctx.lineWidth = 1;
+        dctx.setLineDash([3, 3]);
+        dctx.beginPath(); dctx.moveTo(hx, dPadT); dctx.lineTo(hx, dh - dPadB); dctx.stroke();
+        dctx.setLineDash([]);
+
+        dctx.beginPath(); dctx.arc(hx, hdy, 3.5, 0, Math.PI * 2);
+        dctx.fillStyle = '#fb7185'; dctx.fill();
+      }
+    }
+
+    function handleChartPointer(clientX) {
+      const wrap = document.getElementById('chart-wrap');
+      const tt = document.getElementById('chart-tooltip');
+      if (!wrap || !tt || curvePoints.length <= 1) return;
+      const rect = wrap.getBoundingClientRect();
+      const padL = 52, padR = 16;
+      const relX = clientX - rect.left;
+      const ratio = Math.max(0, Math.min(1, (relX - padL) / (rect.width - padL - padR)));
+      const idx = Math.round(ratio * (curvePoints.length - 1));
+      hoverIdx = idx;
+      drawCharts();
+
+      const pt = curvePoints[idx];
+      const cumCol = pt.pct >= 0 ? 'var(--green)' : 'var(--red)';
+      let html = '';
+      if (!pt.deal) {
+        html = `<div class="tt-head"><span>Start Baseline</span><span>0.00%</span></div>`;
+      } else {
+        const p = Number(pt.deal.pct || 0);
+        const r = Number(pt.deal.r_mult || 0);
+        const pCol = p >= 0 ? 'var(--green)' : 'var(--red)';
+        html = `
+          <div class="tt-head">
+            <span>Trade ${pt.label} &bull; ${pt.deal.symbol}</span>
+            <span style="color:${pCol}">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</span>
+          </div>
+          <div class="tt-row"><span>Engine</span><strong>${pt.deal.engine} (${pt.deal.type})</strong></div>
+          <div class="tt-row"><span>Time (UTC)</span><strong>${pt.deal.time}</strong></div>
+          <div class="tt-row"><span>Trade R</span><strong style="color:${pCol}">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</strong></div>
+          <div class="tt-row"><span>Cumulative</span><strong style="color:${cumCol}">${pt.pct >= 0 ? '+' : ''}${pt.pct.toFixed(2)}%</strong></div>
+          <div class="tt-row"><span>Drawdown</span><strong style="color:var(--red)">${pt.dd.toFixed(2)}%</strong></div>
+        `;
+      }
+      tt.innerHTML = html;
+      tt.style.display = 'block';
+      const ttW = tt.offsetWidth || 175;
+      let left = relX + 12;
+      if (left + ttW > rect.width - 8) left = Math.max(8, relX - ttW - 12);
+      tt.style.left = left + 'px';
+      tt.style.top = '10px';
+    }
+
+    function clearChartPointer() {
+      hoverIdx = -1;
+      const tt = document.getElementById('chart-tooltip');
+      if (tt) tt.style.display = 'none';
+      drawCharts();
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('cal-grid');
+      const label = document.getElementById('cal-month-label');
+      const summaryEl = document.getElementById('cal-month-summary');
+      const weekStrip = document.getElementById('week-strip');
+      if (!grid) return;
+
+      label.textContent = MONTH_NAMES[calMonth] + " " + calYear;
+      const deals = getFilteredDeals();
+
+      const dailyMap = {};
+      let monthPct = 0, monthR = 0, monthTrades = 0;
+      const monthPrefix = calYear + "-" + String(calMonth + 1).padStart(2, "0") + "-";
+
+      deals.forEach(deal => {
+        const key = getDealDateKey(deal);
+        if (!key || !key.startsWith(monthPrefix)) return;
+        const p = Number(deal.pct || 0);
+        const r = Number(deal.r_mult || 0);
+        if (!dailyMap[key]) dailyMap[key] = { pct: 0, r: 0, count: 0 };
+        dailyMap[key].pct += p;
+        dailyMap[key].r += r;
+        dailyMap[key].count += 1;
+        monthPct += p;
+        monthR += r;
+        monthTrades += 1;
+      });
+
+      const mCol = monthPct >= 0 ? 'var(--green)' : 'var(--red)';
+      summaryEl.innerHTML =
+        `Month Total: <strong style="color:${mCol}">${monthPct >= 0 ? '+' : ''}${monthPct.toFixed(2)}%</strong> ` +
+        `(${monthR >= 0 ? '+' : ''}${monthR.toFixed(2)}R) &bull; ${monthTrades} trade${monthTrades === 1 ? '' : 's'}`;
+
+      const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+      let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join("");
+
+      const firstDay = new Date(Date.UTC(calYear, calMonth, 1));
+      const startOffset = (firstDay.getUTCDay() + 6) % 7;
+      const daysInMonth = new Date(Date.UTC(calYear, calMonth + 1, 0)).getUTCDate();
+
+      for (let i = 0; i < startOffset; i++) html += `<div class="cal-cell empty-day"></div>`;
+
+      const weekBuckets = {};
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = monthPrefix + String(day).padStart(2, "0");
+        const slot = startOffset + day - 1;
+        const dow = slot % 7;
+        const weekNum = Math.floor(slot / 7) + 1;
+        const isWeekend = (dow === 5 || dow === 6);
+        const info = dailyMap[dateKey];
+
+        if (info) {
+          if (!weekBuckets[weekNum]) weekBuckets[weekNum] = { pct: 0, count: 0 };
+          weekBuckets[weekNum].pct += info.pct;
+          weekBuckets[weekNum].count += info.count;
+          const isWin = info.pct >= 0;
+          const col = isWin ? 'var(--green)' : 'var(--red)';
+          html += `
+            <div class="cal-cell ${isWin ? 'win-day' : 'loss-day'}">
+              <div class="cal-day-num">${day}</div>
+              <div>
+                <div class="cal-day-pct" style="color:${col}">${isWin ? '+' : ''}${info.pct.toFixed(2)}%</div>
+                <div class="cal-day-meta">${info.count}t &bull; ${info.r >= 0 ? '+' : ''}${info.r.toFixed(1)}R</div>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="cal-cell${isWeekend ? ' weekend' : ''}">
+              <div class="cal-day-num">${day}</div>
+              <div class="cal-day-meta" style="opacity:0.35;">—</div>
+            </div>
+          `;
+        }
+      }
+      grid.innerHTML = html;
+
+      // Render Weekly Summary Pills
+      const wKeys = Object.keys(weekBuckets).sort((a, b) => Number(a) - Number(b));
+      if (wKeys.length > 0) {
+        weekStrip.innerHTML = wKeys.map(wk => {
+          const wInfo = weekBuckets[wk];
+          const wCol = wInfo.pct >= 0 ? 'var(--green)' : 'var(--red)';
+          return `<span class="week-pill">W${wk}: <strong style="color:${wCol}">${wInfo.pct >= 0 ? '+' : ''}${wInfo.pct.toFixed(2)}%</strong> (${wInfo.count}t)</span>`;
+        }).join('');
+      } else {
+        weekStrip.innerHTML = '';
+      }
+    }
+
     function renderDealsPage() {
       const tbody = document.getElementById('deals-tbody');
+      const mobileBox = document.getElementById('deals-mobile');
       const countEl = document.getElementById('history-count');
       const pageLabel = document.getElementById('deals-page-label');
       const prevBtn = document.getElementById('deals-prev');
       const nextBtn = document.getElementById('deals-next');
-      if (!tbody) return;
+      if (!tbody || !mobileBox) return;
 
-      const total = allDeals.length;
+      const deals = getFilteredDeals();
+      const total = deals.length;
       if (total === 0) {
         countEl.textContent = 'Showing 0 of 0';
         pageLabel.textContent = 'Page 1 / 1';
         prevBtn.disabled = true;
         nextBtn.disabled = true;
-        tbody.innerHTML = '<tr><td colspan="6" class="empty">No closed trades recorded yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty">No closed trades recorded for this filter.</td></tr>';
+        mobileBox.innerHTML = '<div class="empty">No closed trades recorded for this filter.</div>';
         return;
       }
 
@@ -261,7 +1044,7 @@
       if (dealsPage > totalPages) dealsPage = totalPages;
       if (dealsPage < 1) dealsPage = 1;
 
-      const rev = [...allDeals].reverse();
+      const rev = [...deals].reverse();
       const startIdx = (dealsPage - 1) * DEALS_PER_PAGE;
       const endIdx = Math.min(total, startIdx + DEALS_PER_PAGE);
       const slice = rev.slice(startIdx, endIdx);
@@ -275,201 +1058,50 @@
         const p = Number(deal.pct || 0);
         const r = Number(deal.r_mult || 0);
         const c = p >= 0 ? 'var(--green)' : 'var(--red)';
+        const dirCol = deal.type === 'BUY' ? 'var(--green)' : 'var(--red)';
         return `
           <tr>
-            <td style="color: var(--muted);">${deal.time}</td>
+            <td style="color:var(--muted);">${deal.time}</td>
             <td>${deal.engine}</td>
-            <td><b>${deal.symbol}</b></td>
-            <td style="color:${deal.type === 'BUY' ? 'var(--green)' : 'var(--red)'}; font-weight:700;">${deal.type}</td>
-            <td style="color:${c}; font-weight:700;">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</td>
+            <td><strong>${deal.symbol}</strong></td>
+            <td style="color:${dirCol}; font-weight:800;">${deal.type}</td>
+            <td style="color:${c}; font-weight:800;">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</td>
             <td style="color:${c}; font-weight:700;">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</td>
           </tr>
         `;
       }).join('');
-    }
-    let refYear = new Date().getUTCFullYear();
-    let calYear = new Date().getUTCFullYear();
-    let calMonth = new Date().getUTCMonth(); // 0-11
-    let calInitialized = false;
 
-    const MONTH_NAMES = [
-      "January","February","March","April","May","June",
-      "July","August","September","October","November","December"
-    ];
-
-    function getDealDateKey(deal) {
-      if (deal.date && /^\d{4}-\d{2}-\d{2}$/.test(deal.date)) {
-        return deal.date;
-      }
-      if (deal.time && /^\d{2}-\d{2}/.test(deal.time)) {
-        return refYear + "-" + deal.time.slice(0, 5);
-      }
-      return null;
-    }
-
-    function renderCalendar() {
-      const grid = document.getElementById('cal-grid');
-      const label = document.getElementById('cal-month-label');
-      const summaryEl = document.getElementById('cal-month-summary');
-      if (!grid) return;
-
-      label.textContent = MONTH_NAMES[calMonth] + " " + calYear;
-
-      // Aggregate deals by YYYY-MM-DD for the selected month
-      const dailyMap = {};
-      let monthPct = 0.0;
-      let monthR = 0.0;
-      let monthTrades = 0;
-      const monthPrefix = calYear + "-" + String(calMonth + 1).padStart(2, "0") + "-";
-
-      allDeals.forEach(deal => {
-        const key = getDealDateKey(deal);
-        if (!key || !key.startsWith(monthPrefix)) return;
+      mobileBox.innerHTML = slice.map(deal => {
         const p = Number(deal.pct || 0);
         const r = Number(deal.r_mult || 0);
-        if (!dailyMap[key]) dailyMap[key] = { pct: 0.0, r: 0.0, count: 0 };
-        dailyMap[key].pct += p;
-        dailyMap[key].r += r;
-        dailyMap[key].count += 1;
-        monthPct += p;
-        monthR += r;
-        monthTrades += 1;
-      });
-
-      const mColor = monthPct >= 0 ? 'var(--green)' : 'var(--red)';
-      summaryEl.innerHTML =
-        `Month Total: <strong style="color:${mColor}">${monthPct >= 0 ? '+' : ''}${monthPct.toFixed(2)}%</strong> ` +
-        `(${monthR >= 0 ? '+' : ''}${monthR.toFixed(2)}R) &bull; ${monthTrades} trade${monthTrades === 1 ? '' : 's'}`;
-
-      const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-      let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join("");
-
-      const firstDay = new Date(Date.UTC(calYear, calMonth, 1));
-      const startOffset = (firstDay.getUTCDay() + 6) % 7; // Monday = 0
-      const daysInMonth = new Date(Date.UTC(calYear, calMonth + 1, 0)).getUTCDate();
-
-      for (let i = 0; i < startOffset; i++) {
-        html += `<div class="cal-cell empty-day"></div>`;
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dateKey = monthPrefix + String(day).padStart(2, "0");
-        const dow = (startOffset + day - 1) % 7;
-        const isWeekend = (dow === 5 || dow === 6);
-        const info = dailyMap[dateKey];
-
-        if (info) {
-          const isWin = info.pct >= 0;
-          const cls = isWin ? "win-day" : "loss-day";
-          const col = isWin ? "var(--green)" : "var(--red)";
-          html += `
-            <div class="cal-cell ${cls}">
-              <div class="cal-day-num">${day}</div>
-              <div>
-                <div class="cal-day-pct" style="color:${col}">${isWin ? '+' : ''}${info.pct.toFixed(2)}%</div>
-                <div class="cal-day-meta">${info.count}t &bull; ${info.r >= 0 ? '+' : ''}${info.r.toFixed(1)}R</div>
+        const c = p >= 0 ? 'var(--green)' : 'var(--red)';
+        const dirCls = deal.type === 'BUY' ? 'buy' : 'sell';
+        return `
+          <div class="m-deal">
+            <div class="m-deal-left">
+              <div class="m-deal-top">
+                <span>${deal.symbol}</span>
+                <span class="m-dir ${dirCls}">${deal.type}</span>
               </div>
+              <div class="m-deal-sub">${deal.engine} &bull; ${deal.time} UTC</div>
             </div>
-          `;
-        } else {
-          html += `
-            <div class="cal-cell${isWeekend ? ' weekend' : ''}">
-              <div class="cal-day-num">${day}</div>
-              <div class="cal-day-meta" style="opacity:0.4;">—</div>
+            <div class="m-deal-right">
+              <div class="m-deal-pct" style="color:${c}">${p >= 0 ? '+' : ''}${p.toFixed(2)}%</div>
+              <div class="m-deal-r">${r >= 0 ? '+' : ''}${r.toFixed(2)}R</div>
             </div>
-          `;
-        }
-      }
-
-      grid.innerHTML = html;
+          </div>
+        `;
+      }).join('');
     }
 
-    function drawLiveChart() {
-      const canvas = document.getElementById('equityCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-
-      const w = rect.width;
-      const h = rect.height;
-      const padL = 56, padR = 20, padT = 24, padB = 28;
-      ctx.clearRect(0, 0, w, h);
-
-      const vals = pctCurve.map(p => p.pct);
-      const minV = Math.min(-10.0, Math.floor(Math.min(...vals, -2) - 1));
-      const maxV = Math.max(8.5, Math.ceil(Math.max(...vals, 4) + 1));
-
-      const getX = (idx, total) => (total <= 1 ? padL : padL + (idx / (total - 1)) * (w - padL - padR));
-      const getY = (val) => padT + (1 - (val - minV) / (maxV - minV)) * (h - padT - padB);
-
-      const keyLevels = [
-        { val: 8.0, label: "+8.0% Milestone", color: "#38bdf8", dash: [5, 4] },
-        { val: 4.0, label: "+4.0%", color: "#1e293b", dash: [] },
-        { val: 0.0, label: "0.0% Baseline", color: "#64748b", dash: [2, 2] },
-        { val: -5.0, label: "-5.0%", color: "#1e293b", dash: [] },
-        { val: -10.0, label: "-10.0% Max Shield", color: "#f43f5e", dash: [5, 4] }
-      ];
-
-      ctx.font = '10px -apple-system, sans-serif';
-      keyLevels.forEach(lvl => {
-        if (lvl.val < minV || lvl.val > maxV) return;
-        const y = getY(lvl.val);
-        ctx.strokeStyle = lvl.color;
-        ctx.lineWidth = (lvl.val === 8.0 || lvl.val === -10.0 || lvl.val === 0.0) ? 1.2 : 0.8;
-        ctx.setLineDash(lvl.dash);
-        ctx.beginPath();
-        ctx.moveTo(padL, y);
-        ctx.lineTo(w - padR, y);
-        ctx.stroke();
-
-        ctx.fillStyle = lvl.color;
-        const isRight = (lvl.val === 8.0 || lvl.val === -10.0);
-        ctx.fillText(lvl.label, isRight ? (w - 115) : 6, y - 4);
-      });
-      ctx.setLineDash([]);
-
-      if (pctCurve.length > 0) {
-        const lastPct = pctCurve[pctCurve.length - 1].pct;
-        const lineColor = lastPct >= 0 ? '#10b981' : '#38bdf8';
-        const grad = ctx.createLinearGradient(0, padT, 0, h - padB);
-        grad.addColorStop(0, lastPct >= 0 ? 'rgba(16, 185, 129, 0.30)' : 'rgba(56, 189, 248, 0.28)');
-        grad.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
-
-        ctx.beginPath();
-        ctx.moveTo(getX(0, pctCurve.length), getY(0.0));
-        pctCurve.forEach((p, i) => ctx.lineTo(getX(i, pctCurve.length), getY(p.pct)));
-        ctx.lineTo(getX(pctCurve.length - 1, pctCurve.length), getY(0.0));
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        ctx.beginPath();
-        pctCurve.forEach((p, i) => {
-          const x = getX(i, pctCurve.length);
-          const y = getY(p.pct);
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        });
-        ctx.strokeStyle = lineColor;
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-
-        pctCurve.forEach((p, i) => {
-          const x = getX(i, pctCurve.length);
-          const y = getY(p.pct);
-          ctx.beginPath();
-          ctx.arc(x, y, (i === pctCurve.length - 1 ? 5 : 3.2), 0, Math.PI * 2);
-          ctx.fillStyle = (i === pctCurve.length - 1 ? '#38bdf8' : lineColor);
-          ctx.fill();
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 1.1;
-          ctx.stroke();
-        });
-      }
+    function refreshFilteredViews() {
+      const labelMap = { ALL: '📈 Verified Equity Curve (% Return)', GOLD: '🥇 Gold M1 Equity Curve (% Return)', NDX: '⚡ Nasdaq M1 Equity Curve (% Return)' };
+      document.getElementById('chart-title').textContent = labelMap[activeFilter];
+      renderEngineCards();
+      buildCurvePoints();
+      renderDealsPage();
+      renderCalendar();
+      drawCharts();
     }
 
     async function syncVault() {
@@ -479,6 +1111,7 @@
         const d = await res.json();
 
         if (d.updated_at) {
+          lastUpdatedIso = d.updated_at;
           const dt = new Date(d.updated_at);
           refYear = dt.getUTCFullYear();
           if (!calInitialized) {
@@ -486,11 +1119,10 @@
             calMonth = dt.getUTCMonth();
             calInitialized = true;
           }
-          document.getElementById('last-updated').textContent = 'Updated: ' + dt.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
         }
 
-        const retEl = document.getElementById('val-return');
         const retVal = Number(d.net_return_pct || 0);
+        const retEl = document.getElementById('val-return');
         retEl.textContent = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
         retEl.style.color = retVal >= 0 ? 'var(--green)' : 'var(--red)';
 
@@ -504,17 +1136,34 @@
 
         const wrVal = Number(d.win_rate_pct || 0);
         const nTrades = Number(d.total_trades || 0);
-        document.getElementById('val-winrate').textContent = nTrades > 0 ? (wrVal.toFixed(1) + '% (' + nTrades + ')') : '--% (0)';
+        document.getElementById('val-winrate').textContent = nTrades > 0 ? `${wrVal.toFixed(1)}% (${nTrades})` : '--% (0)';
         document.getElementById('val-pf').textContent = 'Profit Factor: ' + (d.profit_factor !== null && d.profit_factor !== undefined ? Number(d.profit_factor).toFixed(2) : '--');
 
+        const damperState = d.damper_state || 'NORMAL';
         const damperEl = document.getElementById('val-damper');
-        damperEl.textContent = d.damper_state || 'NORMAL';
-        damperEl.style.color = (d.damper_state && (d.damper_state.includes('TIER-3') || d.damper_state.includes('TIER-4')))
-          ? 'var(--red)'
-          : ((d.damper_state && d.damper_state.includes('TIER')) ? 'var(--gold)' : 'var(--green)');
+        const hintEl = document.getElementById('val-damper-hint');
+        damperEl.textContent = damperState;
+        if (damperState.includes('TIER-3') || damperState.includes('TIER-4')) {
+          damperEl.style.color = 'var(--red)';
+          hintEl.textContent = 'Heavy Capital Protection Active';
+        } else if (damperState.includes('TIER-2')) {
+          damperEl.style.color = 'var(--amber)';
+          hintEl.textContent = `Clears below -3.60% DD (${Math.max(0, ddVal - 3.6).toFixed(2)}% left)`;
+        } else if (damperState.includes('TIER-1')) {
+          damperEl.style.color = 'var(--amber)';
+          hintEl.textContent = 'Moderate Lot Scaling Active';
+        } else {
+          damperEl.style.color = 'var(--green)';
+          hintEl.textContent = 'Full Risk Allocation (Tier-0)';
+        }
 
-        const shieldPct = Math.max(0, Math.min(100, 100 - (ddVal / 10.0) * 100));
-        document.getElementById('fill-shield').style.width = shieldPct.toFixed(1) + '%';
+        // Prop Firm Track (-10% to +8% = 18% total span)
+        const clampedRet = Math.max(-10, Math.min(8, retVal));
+        const markerPct = ((clampedRet + 10) / 18) * 100;
+        document.getElementById('milestone-marker').style.left = markerPct.toFixed(2) + '%';
+        const toTarget = Math.max(0, 8.0 - retVal);
+        document.getElementById('milestone-gap').textContent = `• ${toTarget.toFixed(2)}% to +8.0%`;
+        document.getElementById('shield-remaining').textContent = `Max Loss Buffer: ${Math.max(0, 10 - ddVal).toFixed(2)}% left`;
 
         const statePill = document.getElementById('live-state-pill');
         statePill.textContent = d.has_open_position ? '⚡ Engine Active (Position Masked)' : '🛡️ Flat — Scanning Killzones';
@@ -525,27 +1174,46 @@
           link.style.display = 'inline-flex';
         }
 
-        if (d.deals && Array.isArray(d.deals) && d.deals.length > 0) {
-          allDeals = d.deals;
-          pctCurve = [{ label: "Start", pct: 0.0 }];
-          let cumPct = 0.0;
-          d.deals.forEach((deal, idx) => {
-            cumPct += Number(deal.pct || 0);
-            pctCurve.push({ label: "#" + (idx + 1), pct: cumPct });
-          });
-
-        } else {
-          allDeals = [];
-          pctCurve = [{ label: "Start", pct: 0.0 }];
-        }
-        renderDealsPage();
-        renderCalendar();
-        drawLiveChart();
+        allDeals = Array.isArray(d.deals) ? d.deals : [];
+        renderDailySummaryAndStreak();
+        updateNyClockAndSession();
+        refreshFilteredViews();
       } catch (e) {}
     }
 
-    window.addEventListener('resize', drawLiveChart);
+    window.addEventListener('resize', drawCharts);
     window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#engine-filter .filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#engine-filter .filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.dataset.filter;
+          dealsPage = 1;
+          clearChartPointer();
+          refreshFilteredViews();
+        });
+      });
+
+      document.getElementById('btn-zoom').addEventListener('click', () => {
+        zoomMode = 'zoom';
+        document.getElementById('btn-zoom').classList.add('active');
+        document.getElementById('btn-full').classList.remove('active');
+        drawCharts();
+      });
+      document.getElementById('btn-full').addEventListener('click', () => {
+        zoomMode = 'full';
+        document.getElementById('btn-full').classList.add('active');
+        document.getElementById('btn-zoom').classList.remove('active');
+        drawCharts();
+      });
+
+      const wrap = document.getElementById('chart-wrap');
+      wrap.addEventListener('mousemove', e => handleChartPointer(e.clientX));
+      wrap.addEventListener('mouseleave', clearChartPointer);
+      wrap.addEventListener('touchstart', e => { if (e.touches[0]) handleChartPointer(e.touches[0].clientX); }, { passive: true });
+      wrap.addEventListener('touchmove', e => { if (e.touches[0]) handleChartPointer(e.touches[0].clientX); }, { passive: true });
+      wrap.addEventListener('touchend', () => setTimeout(clearChartPointer, 1800));
+
       document.getElementById('cal-prev').addEventListener('click', () => {
         calMonth -= 1;
         if (calMonth < 0) { calMonth = 11; calYear -= 1; }
@@ -560,11 +1228,12 @@
         if (dealsPage > 1) { dealsPage -= 1; renderDealsPage(); }
       });
       document.getElementById('deals-next').addEventListener('click', () => {
-        const totalPages = Math.max(1, Math.ceil(allDeals.length / DEALS_PER_PAGE));
+        const totalPages = Math.max(1, Math.ceil(getFilteredDeals().length / DEALS_PER_PAGE));
         if (dealsPage < totalPages) { dealsPage += 1; renderDealsPage(); }
       });
-      renderCalendar();
-      drawLiveChart();
+
+      updateNyClockAndSession();
+      setInterval(updateNyClockAndSession, 1000);
       syncVault();
       setInterval(syncVault, 15000);
     });
