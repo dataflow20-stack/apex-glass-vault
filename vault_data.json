@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T23:38:33.154839+00:00",
+  "updated_at": "2026-11-28T00:19:35.085561+00:00",
   "net_return_pct": -0.34,
   "total_r": -0.34,
   "current_dd_pct": 3.7,
@@ -13,7 +13,7 @@
   "deals": [
     {
       "date": "2026-11-10",
-      "time": "11-10 21:40",
+      "time": "11-10 22:40",
       "engine": "\u2699\ufe0f Quant Engine",
       "symbol": "NDX100",
       "type": "BUY",
@@ -22,7 +22,7 @@
     },
     {
       "date": "2026-11-12",
-      "time": "11-12 17:39",
+      "time": "11-12 18:39",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -31,7 +31,7 @@
     },
     {
       "date": "2026-11-12",
-      "time": "11-12 21:43",
+      "time": "11-12 22:43",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -40,7 +40,7 @@
     },
     {
       "date": "2026-11-12",
-      "time": "11-12 22:22",
+      "time": "11-12 23:22",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -49,7 +49,7 @@
     },
     {
       "date": "2026-11-13",
-      "time": "11-13 18:16",
+      "time": "11-13 19:16",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -58,7 +58,7 @@
     },
     {
       "date": "2026-11-13",
-      "time": "11-13 18:51",
+      "time": "11-13 19:51",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -67,7 +67,7 @@
     },
     {
       "date": "2026-11-13",
-      "time": "11-13 20:54",
+      "time": "11-13 21:54",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -76,7 +76,7 @@
     },
     {
       "date": "2026-11-13",
-      "time": "11-13 21:52",
+      "time": "11-13 22:52",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -85,7 +85,7 @@
     },
     {
       "date": "2026-11-16",
-      "time": "11-16 18:18",
+      "time": "11-16 19:18",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -94,7 +94,7 @@
     },
     {
       "date": "2026-11-16",
-      "time": "11-16 19:23",
+      "time": "11-16 20:23",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -103,7 +103,7 @@
     },
     {
       "date": "2026-11-16",
-      "time": "11-16 19:48",
+      "time": "11-16 20:48",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -112,7 +112,7 @@
     },
     {
       "date": "2026-11-17",
-      "time": "11-17 13:01",
+      "time": "11-17 14:01",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -121,7 +121,7 @@
     },
     {
       "date": "2026-11-17",
-      "time": "11-17 13:38",
+      "time": "11-17 14:38",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -130,7 +130,7 @@
     },
     {
       "date": "2026-11-17",
-      "time": "11-17 22:27",
+      "time": "11-17 23:27",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -138,8 +138,8 @@
       "r_mult": -0.56
     },
     {
-      "date": "2026-11-17",
-      "time": "11-17 23:25",
+      "date": "2026-11-18",
+      "time": "11-18 00:25",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -148,7 +148,7 @@
     },
     {
       "date": "2026-11-18",
-      "time": "11-18 14:24",
+      "time": "11-18 15:24",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -157,7 +157,7 @@
     },
     {
       "date": "2026-11-18",
-      "time": "11-18 21:16",
+      "time": "11-18 22:16",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -166,7 +166,7 @@
     },
     {
       "date": "2026-11-18",
-      "time": "11-18 22:40",
+      "time": "11-18 23:40",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -175,7 +175,7 @@
     },
     {
       "date": "2026-11-19",
-      "time": "11-19 18:01",
+      "time": "11-19 19:01",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -184,7 +184,7 @@
     },
     {
       "date": "2026-11-19",
-      "time": "11-19 21:50",
+      "time": "11-19 22:50",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -193,7 +193,7 @@
     },
     {
       "date": "2026-11-19",
-      "time": "11-19 22:00",
+      "time": "11-19 23:00",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -202,7 +202,7 @@
     },
     {
       "date": "2026-11-19",
-      "time": "11-19 22:58",
+      "time": "11-19 23:58",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -211,7 +211,7 @@
     },
     {
       "date": "2026-11-20",
-      "time": "11-20 19:38",
+      "time": "11-20 20:38",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -220,7 +220,7 @@
     },
     {
       "date": "2026-11-20",
-      "time": "11-20 21:32",
+      "time": "11-20 22:32",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -229,7 +229,7 @@
     },
     {
       "date": "2026-11-20",
-      "time": "11-20 22:15",
+      "time": "11-20 23:15",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -238,7 +238,7 @@
     },
     {
       "date": "2026-11-23",
-      "time": "11-23 12:12",
+      "time": "11-23 13:12",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -247,7 +247,7 @@
     },
     {
       "date": "2026-11-23",
-      "time": "11-23 12:31",
+      "time": "11-23 13:31",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -256,7 +256,7 @@
     },
     {
       "date": "2026-11-23",
-      "time": "11-23 17:35",
+      "time": "11-23 18:35",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -265,7 +265,7 @@
     },
     {
       "date": "2026-11-23",
-      "time": "11-23 19:56",
+      "time": "11-23 20:56",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -274,7 +274,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 17:42",
+      "time": "11-24 18:42",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -283,7 +283,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 18:10",
+      "time": "11-24 19:10",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -292,7 +292,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 19:31",
+      "time": "11-24 20:31",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -301,7 +301,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 20:25",
+      "time": "11-24 21:25",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -310,7 +310,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 21:37",
+      "time": "11-24 22:37",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -319,7 +319,7 @@
     },
     {
       "date": "2026-11-24",
-      "time": "11-24 22:08",
+      "time": "11-24 23:08",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
@@ -327,8 +327,8 @@
       "r_mult": 0.51
     },
     {
-      "date": "2026-11-24",
-      "time": "11-24 23:16",
+      "date": "2026-11-25",
+      "time": "11-25 00:16",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -337,7 +337,7 @@
     },
     {
       "date": "2026-11-25",
-      "time": "11-25 14:56",
+      "time": "11-25 15:56",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "BUY",
@@ -346,7 +346,7 @@
     },
     {
       "date": "2026-11-25",
-      "time": "11-25 18:15",
+      "time": "11-25 19:15",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -355,7 +355,7 @@
     },
     {
       "date": "2026-11-25",
-      "time": "11-25 21:46",
+      "time": "11-25 22:46",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -364,7 +364,7 @@
     },
     {
       "date": "2026-11-27",
-      "time": "11-27 14:30",
+      "time": "11-27 15:30",
       "engine": "\ud83e\udd47 Gold M1",
       "symbol": "XAUUSD",
       "type": "SELL",
@@ -373,7 +373,7 @@
     },
     {
       "date": "2026-11-27",
-      "time": "11-27 22:20",
+      "time": "11-27 23:20",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "SELL",
@@ -382,7 +382,7 @@
     },
     {
       "date": "2026-11-27",
-      "time": "11-27 22:54",
+      "time": "11-27 23:54",
       "engine": "\u26a1 Nasdaq M1",
       "symbol": "NDX100",
       "type": "BUY",
